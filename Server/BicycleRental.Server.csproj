@@ -29,5 +29,10 @@
     <ProjectReference Include="..\Shared\BicycleRental.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repositories\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 
 </Project>
