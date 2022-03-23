@@ -1,6 +1,6 @@
 ﻿namespace BicycleRental.Shared
 {
-    public class Bike
+    public class Bike : BaseEntity
     {
         public int Id { get; set; }
         public string SerialNumber { get; set; }
@@ -10,5 +10,10 @@
 
         public BikesType BikesType { get; set; }
         public ICollection<Rental> Rentals { get; set; }
+
+        public Bike()
+        {
+            IsBorrowed = false;
+        }
     }
 }

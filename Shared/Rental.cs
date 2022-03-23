@@ -1,6 +1,6 @@
 ﻿namespace BicycleRental.Shared
 {
-    public class Rental
+    public class Rental : BaseEntity
     {
         public int Id { get; set; }
         public DateTime StartDate { get; set; }
