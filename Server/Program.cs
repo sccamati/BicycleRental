@@ -4,19 +4,21 @@ global using BicycleRental.Server.Data;
 using Microsoft.AspNetCore.ResponseCompression;
 using BicycleRental.Server.Abstraction;
 using BicycleRental.Server.Services;
+using BicycleRental.Server.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddAutomapper();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-builder.Services.AddScoped<IUserRepository, IUserRepository>();
-
+builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
 builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();

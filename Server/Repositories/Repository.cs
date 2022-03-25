@@ -4,7 +4,7 @@ namespace BicycleRental.Server.Repositories
 {
     public class Repository<T> : IRepository<T> where T : BaseEntity
     {
-        private readonly DataContext _context;
+        protected readonly DataContext _context;
         private readonly DbSet<T> _dbSet;
         public Repository(DataContext context)
         {

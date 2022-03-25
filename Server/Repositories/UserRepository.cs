@@ -7,5 +7,10 @@ namespace BicycleRental.Server.Repositories
         public UserRepository(DataContext context) : base(context)
         {
         }
+
+        public async Task<List<User>> GetAllWithRoles()
+        {
+            return await _context.Users.Include(u => u.Role).ToListAsync();
+        }
     }
 }

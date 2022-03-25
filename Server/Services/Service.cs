@@ -4,7 +4,7 @@ namespace BicycleRental.Server.Services
 {
     public class Service<T> : IService<T> where T : BaseEntity
     {
-        private readonly IRepository<T> _repository;
+        protected readonly IRepository<T> _repository;
 
         public Service(IRepository<T> repository)
         {
