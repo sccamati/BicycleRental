@@ -1,0 +1,30 @@
+﻿@page "/users"
+@inject IUserService UserService
+<PageTitle>Users</PageTitle>
+
+<h3>Users</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Role</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in UserService.Users)
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td>@user.Role.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await UserService.GetUsers();
+    }
+}

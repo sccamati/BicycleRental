@@ -1,5 +1,6 @@
 global using BicycleRental.Shared;
 using BicycleRental.Client;
+using BicycleRental.Client.Services.UserService;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
@@ -14,5 +15,7 @@ builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddOptions();
 builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
+
+builder.Services.AddScoped<IUserService, UserService>();
 
 await builder.Build().RunAsync();
