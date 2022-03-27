@@ -1,15 +1,16 @@
+global using BicycleRental.Server.Data;
 global using BicycleRental.Shared;
 global using Microsoft.EntityFrameworkCore;
-global using BicycleRental.Server.Data;
-using Microsoft.AspNetCore.ResponseCompression;
-using BicycleRental.Server.Abstraction;
-using BicycleRental.Server.Services;
-using BicycleRental.Server.Repositories;
+using BicycleRental.Server;
+using BicycleRental.Server.Repositories.Implementation;
+using BicycleRental.Server.Repositories.Interfaces;
+using BicycleRental.Server.Services.Implementation;
+using BicycleRental.Server.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddAutomapper();
+builder.Services.AddAutoMapper(typeof(AutoMaperProfile).Assembly);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<DataContext>(options =>

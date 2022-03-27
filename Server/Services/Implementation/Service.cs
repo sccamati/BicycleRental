@@ -1,6 +1,7 @@
-﻿using BicycleRental.Server.Abstraction;
+﻿using BicycleRental.Server.Services.Interfaces;
+using BicycleRental.Server.Repositories.Interfaces;
 
-namespace BicycleRental.Server.Services
+namespace BicycleRental.Server.Services.Implementation
 {
     public class Service<T> : IService<T> where T : BaseEntity
     {

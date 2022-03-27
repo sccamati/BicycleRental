@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Json;
+﻿using BicycleRental.Shared.Responses;
+using System.Net.Http.Json;
 
 namespace BicycleRental.Client.Services.UserService
 {
@@ -10,16 +11,16 @@ namespace BicycleRental.Client.Services.UserService
         {
             _httpClient = httpClient;
         }
-        public List<User> Users { get; set; } = new List<User>();
+        public List<GetUserResponse> Users { get; set; } = new List<GetUserResponse>();
 
-        public Task<User> GetUserById(int id)
+        public Task<GetUserResponse> GetUserById(int id)
         {
             throw new NotImplementedException();
         }
 
         public async Task GetUsers()
         {
-            var result = await _httpClient.GetFromJsonAsync<List<User>>("api/user");
+            var result = await _httpClient.GetFromJsonAsync<List<GetUserResponse>>("api/user");
             if(result != null)
             {
                 Users = result;

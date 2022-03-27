@@ -1,4 +1,4 @@
-﻿namespace BicycleRental.Server.Abstraction
+﻿namespace BicycleRental.Server.Services.Interfaces
 {
     public interface IService<T>
     {

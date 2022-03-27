@@ -1,5 +1,5 @@
-﻿using BicycleRental.Server.Abstraction;
-using Microsoft.AspNetCore.Http;
+﻿using BicycleRental.Server.Services.Interfaces;
+using BicycleRental.Shared.Responses;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BicycleRental.Server.Controllers
@@ -13,7 +13,7 @@ namespace BicycleRental.Server.Controllers
         public UserController(IUserService userService, DataContext dataContext)
         {
             _userService = userService;
-            _dataContext = dataContext;   
+            _dataContext = dataContext;
         }
 
         [HttpGet("{id}")]

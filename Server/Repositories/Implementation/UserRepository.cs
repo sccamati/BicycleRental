@@ -1,6 +1,6 @@
-﻿using BicycleRental.Server.Abstraction;
+﻿using BicycleRental.Server.Repositories.Interfaces;
 
-namespace BicycleRental.Server.Repositories
+namespace BicycleRental.Server.Repositories.Implementation
 {
     public class UserRepository : Repository<User>, IUserRepository
     {
