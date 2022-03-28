@@ -11,9 +11,10 @@ namespace BicycleRental.Server.Repositories.Implementation
             _context = context;
             _dbSet = _context.Set<T>();
         }
-        public async Task Add(T item)
+        public async Task<T> Add(T item)
         {
             await _dbSet.AddAsync(item);
+            return item;
         }
 
         public async Task Delete(T item)

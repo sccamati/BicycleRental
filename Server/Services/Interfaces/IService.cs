@@ -2,7 +2,7 @@
 {
     public interface IService<T>
     {
-        Task Add(T item);
+        Task<T> Add(T item);
         Task Update(T item);
         Task Delete(T item);
         Task DeleteById(int id);

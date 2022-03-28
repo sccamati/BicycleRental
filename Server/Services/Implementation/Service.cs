@@ -12,9 +12,10 @@ namespace BicycleRental.Server.Services.Implementation
             _repository = repository;
         }
 
-        public async Task Add(T item)
+        public async Task<T> Add(T item)
         {
-            await _repository.Add(item);
+            var newItem = await _repository.Add(item);
+            return newItem;
         }
 
         public async Task Delete(T item)
