@@ -17,7 +17,7 @@ namespace BicycleRental.Server.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<User>> GetUserById([FromQuery] int id)
         {
             User user = await _userService.GetById(id);
             return Ok(user);
