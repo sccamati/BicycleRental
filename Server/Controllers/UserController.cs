@@ -15,7 +15,7 @@ namespace BicycleRental.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUser([FromBody] UserRequest user)
+        public async Task<IActionResult> Post([FromBody] UserRequest user)
         {
             User newUser = new User
             {
@@ -30,7 +30,7 @@ namespace BicycleRental.Server.Controllers
         }
 
         [HttpPut]
-        public async void UpdateUser([FromBody] UpdateUserRequest user)
+        public async void Put([FromBody] UpdateUserRequest user)
         {
             User userToUpdate = new User
             {
@@ -43,7 +43,7 @@ namespace BicycleRental.Server.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUserById([FromQuery] int id)
+        public async Task<ActionResult<User>> Get([FromQuery] int id)
         {
             User user = await _userService.GetById(id);
 
@@ -56,7 +56,7 @@ namespace BicycleRental.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<User>>> GetUsers()
+        public async Task<ActionResult<List<User>>> Get()
         {
             var users = await _userService.GetAllWithRoles();
 
@@ -69,7 +69,7 @@ namespace BicycleRental.Server.Controllers
         }
 
         [HttpDelete]
-        public async Task<ActionResult> DeleteUser(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             await _userService.DeleteById(id);
             return Ok();
