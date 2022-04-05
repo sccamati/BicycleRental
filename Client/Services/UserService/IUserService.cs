@@ -1,12 +1,12 @@
-﻿using BicycleRental.Shared.Responses;
+﻿using BicycleRental.Shared.Dto.UseCaseResponse.Bike.Bike.User;
 
 namespace BicycleRental.Client.Services.UserService
 {
     public interface IUserService
     {
-        public List<GetUserResponse> Users { get; set; }
+        public List<GetUsersResponse> Users { get; set; }
 
         Task GetUsers();
-        Task<GetUserResponse> GetUserById(int id);
+        Task<GetUsersResponse> GetUserById(int id);
     }
 }

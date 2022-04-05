@@ -1,5 +1,6 @@
 ﻿using BicycleRental.Server.Services.Interfaces;
-using BicycleRental.Shared.Requests.User;
+using BicycleRental.Shared.Dto.UseCaseRequest.User;
+using BicycleRental.Shared.Dto.UseCaseResponse.Bike.Bike.User;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BicycleRental.Server.Controllers
@@ -43,9 +44,9 @@ namespace BicycleRental.Server.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> Get([FromQuery] int id)
+        public async Task<ActionResult<GetUserResponse>> Get([FromQuery] int id)
         {
-            User user = await _userService.GetById(id);
+            var user = await _userService.GetByIdWithRentals(id);
 
             if (user == null)
             {

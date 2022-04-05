@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using BicycleRental.Shared.Responses;
+using BicycleRental.Shared.Dto.UseCaseResponse.Bike.Bike.Bike;
+using BicycleRental.Shared.Dto.UseCaseResponse.Bike.Bike.User;
 
 namespace BicycleRental.Server
 {
@@ -7,7 +8,9 @@ namespace BicycleRental.Server
     {
         public AutoMaperProfile()
         {
-            CreateMap<User, GetUserResponse>().ForMember(dest => dest.RoleName, opt => opt.MapFrom(src => src.Role.Name)).ReverseMap();
+            CreateMap<User, GetUsersResponse>().ReverseMap();
+            CreateMap<User, GetUserResponse>().ReverseMap();
+            CreateMap<Bike, GetBikeReponse>();
         }
     }
 }

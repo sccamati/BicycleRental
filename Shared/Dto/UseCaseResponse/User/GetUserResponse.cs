@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BicycleRental.Shared.Requests.User
+namespace BicycleRental.Shared.Dto.UseCaseResponse.Bike.Bike.User
 {
-    public class UpdateUserRequest
+    public class GetUserResponse
     {
         public int Id { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
         public Role Role { get; set; }
+        public List<Rental> Rentals { get; set; }
     }
 }

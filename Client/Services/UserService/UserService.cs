@@ -1,4 +1,4 @@
-﻿using BicycleRental.Shared.Responses;
+﻿using BicycleRental.Shared.Dto.UseCaseResponse.Bike.Bike.User;
 using System.Net.Http.Json;
 
 namespace BicycleRental.Client.Services.UserService
@@ -11,16 +11,16 @@ namespace BicycleRental.Client.Services.UserService
         {
             _httpClient = httpClient;
         }
-        public List<GetUserResponse> Users { get; set; } = new List<GetUserResponse>();
+        public List<GetUsersResponse> Users { get; set; } = new List<GetUsersResponse>();
 
-        public Task<GetUserResponse> GetUserById(int id)
+        public Task<GetUsersResponse> GetUserById(int id)
         {
             throw new NotImplementedException();
         }
 
         public async Task GetUsers()
         {
-            var result = await _httpClient.GetFromJsonAsync<List<GetUserResponse>>("api/user");
+            var result = await _httpClient.GetFromJsonAsync<List<GetUsersResponse>>("api/user");
             if(result != null)
             {
                 Users = result;

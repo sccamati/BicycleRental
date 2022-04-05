@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BicycleRental.Shared.Requests.User
+namespace BicycleRental.Shared.Dto.UseCaseRequest.User
 {
     public class UserRequest
     {
