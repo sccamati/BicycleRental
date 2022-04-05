@@ -10,7 +10,7 @@ namespace BicycleRental.Server
         {
             CreateMap<User, GetUsersResponse>().ReverseMap();
             CreateMap<User, GetUserResponse>().ReverseMap();
-            CreateMap<Bike, GetBikeReponse>();
+            CreateMap<Bike, GetBikesReponse>();
         }
     }
 }

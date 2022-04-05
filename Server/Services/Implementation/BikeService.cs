@@ -13,10 +13,10 @@ namespace BicycleRental.Server.Services.Implementation
             _mapper = mapper;
         }
 
-        public async Task<List<GetBikeReponse>> GetAllBikes()
+        public async Task<List<GetBikesReponse>> GetAllBikes()
         {
             var bikes = await _repository.GetAll();
-            return _mapper.Map<List<Bike>, List<GetBikeReponse>>(bikes);
+            return _mapper.Map<List<Bike>, List<GetBikesReponse>>(bikes);
         }
     }
 }

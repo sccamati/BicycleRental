@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BicycleRental.Server.Services.Interfaces;
+using BicycleRental.Shared.Dto.UseCaseRequest.Bike;
 using BicycleRental.Shared.Dto.UseCaseResponse.Bike.Bike.Bike;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,14 +20,14 @@ namespace BicycleRental.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<GetBikeReponse>>> Get()
+        public async Task<ActionResult<List<GetBikesReponse>>> Get()
         {
             var bikes = await _bikeService.GetAllBikes();
             return Ok(bikes);
         }
 
         [HttpGet]
-        public async Task<ActionResult<GetBikeReponse>> Get(int id)
+        public async Task<ActionResult<GetBikesReponse>> Get(int id)
         {
             var bike = await _bikeService.GetById(id);
 
@@ -35,20 +36,23 @@ namespace BicycleRental.Server.Controllers
                 return BadRequest();
             }
 
-            return _mapper.Map<GetBikeReponse>(bike);
+            return _mapper.Map<GetBikesReponse>(bike);
         }
 
         [HttpPost]
-        public async Task<ActionResult<GetBikeReponse>> Post(Bike bike)
+        public async Task<ActionResult<GetBikesReponse>> Post(CreateBikeRequest bike)
         {
-            var newBike = await _bikeService.Add(bike);
-            return _mapper.Map<GetBikeReponse>(newBike);
+            Bike newBike = _mapper.Map<Bike>(bike);
+
+            newBike = await _bikeService.Add(newBike);
+            return _mapper.Map<GetBikesReponse>(newBike);
         }
 
         [HttpPut]
-        public async Task<ActionResult> Put(Bike bike)
+        public async Task<ActionResult> Put(UpdateBikeRequest bike)
         {
-            await _bikeService.Update(bike);
+            Bike updateBike = _mapper.Map<Bike>(bike);
+            await _bikeService.Update(updateBike);
             return Ok();
         }
     }
