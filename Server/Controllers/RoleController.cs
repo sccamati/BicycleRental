@@ -27,6 +27,11 @@ namespace BicycleRental.Server.Controllers
             return Ok(newRole);
         }
 
-        
+        [HttpGet]
+        public async Task<ActionResult<List<Role>>> Get()
+        {
+            var roles = await _roleService.GetAll();
+            return Ok(roles);
+        }
     }
 }
