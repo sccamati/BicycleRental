@@ -1,6 +1,6 @@
 ﻿namespace BicycleRental.Server.Repositories.Interfaces
 {
-    public interface IBIkesTypeRepository : IRepository<BikesType>
+    public interface IBikesTypeRepository : IRepository<BikesType>
     {
     }
 }
