@@ -39,7 +39,7 @@ namespace BicycleRental.Server.Services.Implementation
         public async Task<AuthDto?> Register(AuthRegisterDto userDto)
         {
             if(userDto.Password != userDto.ConfirmPassword)
-            {
+        {
                 return null;
             }
 
