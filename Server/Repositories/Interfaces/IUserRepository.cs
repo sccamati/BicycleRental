@@ -5,5 +5,6 @@ namespace BicycleRental.Server.Repositories.Interfaces
     {
         Task<List<User>> GetAllWithRoles();
         Task<User> GetByIdWithRentals(int id);
+        Task<User> GetByEmailWithRole(string email);
     }
 }

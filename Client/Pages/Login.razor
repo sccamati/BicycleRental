@@ -23,6 +23,7 @@
     private async void HandleLogin()
     {
         await LocalStorage.SetItemAsync<string>("email", user.Email);
+        await LocalStorage.SetItemAsync<string>("token", user.Token);
         await AuthStateProvider.GetAuthenticationStateAsync();
         NavigationManager.NavigateTo("");
     }

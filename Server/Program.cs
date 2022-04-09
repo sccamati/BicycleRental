@@ -6,6 +6,9 @@ using BicycleRental.Server.Repositories.Implementation;
 using BicycleRental.Server.Repositories.Interfaces;
 using BicycleRental.Server.Services.Implementation;
 using BicycleRental.Server.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +16,18 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAutoMapper(typeof(AutoMaperProfile).Assembly);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
+            .GetBytes(builder.Configuration.GetSection("AppSettings:SymetricKey").Value)),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -62,6 +77,8 @@ app.UseRouting();
 
 
 app.MapRazorPages();
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
 

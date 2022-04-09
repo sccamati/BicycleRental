@@ -20,6 +20,9 @@ namespace BicycleRental.Client.Services.UserService
 
         public async Task GetUsers()
         {
+            var requestMessage = new HttpRequestMessage(HttpMethod.Get, "");
+            var token = await _localStorageService
+            requestMessage.Headers.Add()
             var result = await _httpClient.GetFromJsonAsync<List<GetUsersResponse>>("api/user");
             if(result != null)
             {
