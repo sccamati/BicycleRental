@@ -18,9 +18,17 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IBikeRepository, BikeRepository>();
+builder.Services.AddScoped<IBikesTypeRepository, BikesTypeRepository>();
+builder.Services.AddScoped<IRentalRepository, RentalRepository>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 
 builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IBikeService, BikeService>();
+builder.Services.AddScoped<IBikesTypeService, BikesTypeService>();
+builder.Services.AddScoped<IRentalService, RentalService>();
+builder.Services.AddScoped<IRoleService, RoleService>();
 
 var app = builder.Build();
 
