@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BicycleRental.Shared.Dto.UseCaseResponse.Bike.Bike.Bike
+namespace BicycleRental.Shared.Dto.UseCaseResponse.Bike
 {
     public class GetBikesReponse
     {

@@ -1,4 +1,4 @@
-﻿using BicycleRental.Shared.Dto.UseCaseResponse.Bike.Bike.User;
+﻿using BicycleRental.Shared.Dto.UseCaseResponse.User;
 using System.Net.Http.Json;
 
 namespace BicycleRental.Client.Services.UserService

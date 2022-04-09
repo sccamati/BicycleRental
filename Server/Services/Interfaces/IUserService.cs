@@ -1,5 +1,5 @@
-﻿using BicycleRental.Shared.Dto.UseCaseResponse.Bike.Bike;
-using BicycleRental.Shared.Dto.UseCaseResponse.Bike.Bike.User;
+﻿using BicycleRental.Shared.Dto.UseCaseResponse.Bike;
+using BicycleRental.Shared.Dto.UseCaseResponse.User;
 
 namespace BicycleRental.Server.Services.Interfaces
 {

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
-using BicycleRental.Shared.Dto.UseCaseResponse.Bike.Bike.Bike;
-using BicycleRental.Shared.Dto.UseCaseResponse.Bike.Bike.User;
+using BicycleRental.Shared.Dto.UseCaseResponse.Bike;
+using BicycleRental.Shared.Dto.UseCaseResponse.Rental;
+using BicycleRental.Shared.Dto.UseCaseResponse.User;
 
 namespace BicycleRental.Server
 {
@@ -11,6 +12,7 @@ namespace BicycleRental.Server
             CreateMap<User, GetUsersResponse>().ReverseMap();
             CreateMap<User, GetUserResponse>().ReverseMap();
             CreateMap<Bike, GetBikesReponse>();
+            CreateMap<Rental, GetUsersRentalsResponse>();
         }
     }
 }

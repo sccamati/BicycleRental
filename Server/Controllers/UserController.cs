@@ -1,6 +1,6 @@
 ﻿using BicycleRental.Server.Services.Interfaces;
 using BicycleRental.Shared.Dto.UseCaseRequest.User;
-using BicycleRental.Shared.Dto.UseCaseResponse.Bike.Bike.User;
+using BicycleRental.Shared.Dto.UseCaseResponse.User;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BicycleRental.Server.Controllers

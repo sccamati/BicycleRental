@@ -1,4 +1,4 @@
-﻿namespace BicycleRental.Shared.Dto.UseCaseResponse.Bike.Bike.User
+﻿namespace BicycleRental.Shared.Dto.UseCaseResponse.User
 {
     public class GetUsersResponse
     {
