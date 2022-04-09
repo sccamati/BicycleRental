@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using BicycleRental.Server.Services.Interfaces;
 using BicycleRental.Server.Repositories.Interfaces;
-using BicycleRental.Shared.Dto.UseCaseResponse.Bike.Bike;
 using BicycleRental.Shared.Dto.UseCaseResponse.User;
 
 namespace BicycleRental.Server.Services.Implementation

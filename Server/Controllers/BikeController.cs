@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using BicycleRental.Server.Services.Interfaces;
 using BicycleRental.Shared.Dto.UseCaseRequest.Bike;
-using BicycleRental.Shared.Dto.UseCaseResponse.Bike.Bike.Bike;
+using BicycleRental.Shared.Dto.UseCaseResponse.Bike;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

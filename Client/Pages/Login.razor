@@ -1,4 +1,5 @@
 ﻿@page "/login"
+@using BicycleRental.Shared.Dto.UseCaseRequest.User
 @inject ILocalStorageService LocalStorage
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthStateProvider
@@ -17,7 +18,7 @@
 </EditForm>
 
 @code {
-    private User user = new User();
+    private UserDto user = new UserDto();
 
     private async void HandleLogin()
     {
