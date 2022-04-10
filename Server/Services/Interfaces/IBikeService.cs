@@ -1,9 +1,9 @@
-﻿using BicycleRental.Shared.Dto.UseCaseResponse.Bike;
+﻿using BicycleRental.Shared.Dto;
 
 namespace BicycleRental.Server.Services.Interfaces
 {
     public interface IBikeService : IService<Bike>
     {
-        Task<List<GetBikesReponse>> GetAllBikes();
+        Task<List<BikeDto>> GetAllBikes();
     }
 }

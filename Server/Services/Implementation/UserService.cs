@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using BicycleRental.Server.Services.Interfaces;
 using BicycleRental.Server.Repositories.Interfaces;
-using BicycleRental.Shared.Dto.UseCaseResponse.User;
+using BicycleRental.Server.Services.Interfaces;
+using BicycleRental.Shared.Dto;
 
 namespace BicycleRental.Server.Services.Implementation
 {
@@ -16,16 +16,16 @@ namespace BicycleRental.Server.Services.Implementation
             _mapper = mapper;
         }
 
-        public async Task<List<GetUsersResponse>> GetAllWithRoles()
+        public async Task<List<UserDto>> GetAllWithRoles()
         {
             var users = await _userRepository.GetAllWithRoles();
-            return _mapper.Map<List<User>, List<GetUsersResponse>>(users);
+            return _mapper.Map<List<User>, List<UserDto>>(users);
         }
 
-        public async Task<GetUserResponse> GetByIdWithRentals(int id)
+        public async Task<UserDto> GetByIdWithRentals(int id)
         {
             var user = await _userRepository.GetById(id);
-            return _mapper.Map<GetUserResponse>(user);
+            return _mapper.Map<UserDto>(user);
         }
     }
 }

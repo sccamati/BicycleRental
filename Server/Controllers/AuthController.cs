@@ -1,5 +1,5 @@
 ﻿using BicycleRental.Server.Services.Interfaces;
-using BicycleRental.Shared.Dto.UseCaseRequest.User;
+using BicycleRental.Shared.Dto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BicycleRental.Server.Controllers
@@ -34,7 +34,14 @@ namespace BicycleRental.Server.Controllers
                 return BadRequest("User Not Found");
             }
 
+            var token = await _authService.Login(request);
 
+            if (token == null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(token);
 
         }
 

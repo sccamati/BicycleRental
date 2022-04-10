@@ -1,4 +1,4 @@
-﻿using BicycleRental.Shared.Dto.UseCaseRequest.User;
+﻿using BicycleRental.Shared.Dto;
 
 namespace BicycleRental.Server.Services.Interfaces
 {

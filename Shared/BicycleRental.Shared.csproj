@@ -15,9 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Dto\UseCaseRequest\BikesType\" />
-    <Folder Include="Dto\UseCaseRequest\Rental\" />
-    <Folder Include="Dto\UseCaseResponse\BikesType\" />
     <Folder Include="Responses\" />
   </ItemGroup>
 </Project>

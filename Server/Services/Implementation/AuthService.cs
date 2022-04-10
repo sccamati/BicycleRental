@@ -1,6 +1,6 @@
 ﻿using BicycleRental.Server.Repositories.Interfaces;
 using BicycleRental.Server.Services.Interfaces;
-using BicycleRental.Shared.Dto.UseCaseRequest.User;
+using BicycleRental.Shared.Dto;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;

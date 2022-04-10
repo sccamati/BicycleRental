@@ -1,6 +1,5 @@
 ﻿using BicycleRental.Server.Services.Interfaces;
-using BicycleRental.Shared.Dto.UseCaseRequest.User;
-using BicycleRental.Shared.Dto.UseCaseResponse.User;
+using BicycleRental.Shared.Dto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BicycleRental.Server.Controllers
@@ -15,36 +14,9 @@ namespace BicycleRental.Server.Controllers
             _userService = userService;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody] UserRequest user)
-        {
-            User newUser = new User
-            {
-                Email = user.Email,
-                Password = user.Password,
-                Role = user.Role
-            };
-
-            await _userService.Add(newUser);
-
-            return Ok();
-        }
-
-        [HttpPut]
-        public async void Put([FromBody] UpdateUserRequest user)
-        {
-            User userToUpdate = new User
-            {
-                Id = user.Id,
-                Email = user.Email,
-                Password = user.Password,
-                Role = user.Role
-            };
-            await _userService.Update(userToUpdate);
-        }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<GetUserResponse>> Get([FromQuery] int id)
+        public async Task<ActionResult<UserDto>> Get([FromQuery] int id)
         {
             var user = await _userService.GetByIdWithRentals(id);
 

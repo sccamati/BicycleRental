@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using BicycleRental.Server.Repositories.Interfaces;
 using BicycleRental.Server.Services.Interfaces;
-using BicycleRental.Shared.Dto.UseCaseResponse.Bike;
+using BicycleRental.Shared.Dto;
 
 namespace BicycleRental.Server.Services.Implementation
 {
@@ -13,10 +13,10 @@ namespace BicycleRental.Server.Services.Implementation
             _mapper = mapper;
         }
 
-        public async Task<List<GetBikesReponse>> GetAllBikes()
+        public async Task<List<BikeDto>> GetAllBikes()
         {
             var bikes = await _repository.GetAll();
-            return _mapper.Map<List<Bike>, List<GetBikesReponse>>(bikes);
+            return _mapper.Map<List<Bike>, List<BikeDto>>(bikes);
         }
     }
 }

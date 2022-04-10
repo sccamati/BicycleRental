@@ -34,7 +34,7 @@ namespace BicycleRental.Client.Services
             return null;
         }
 
-        public async Task<T> DeleteByIdAsync(string requestUri, int id)
+        public async Task<bool> DeleteByIdAsync(string requestUri, int id)
         {
             string uri = Path.Combine(requestUri, id.ToString());
 
@@ -45,16 +45,15 @@ namespace BicycleRental.Client.Services
             
             var response = await _httpClient.SendAsync(requestMessage);
 
-            if(response.StatusCode != System.Net.HttpStatusCode.OK)
+            if(response.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                var responseBody = await response.Content.ReadAsStringAsync();
-                return await Task.FromResult(JsonConvert.DeserializeObject<T>(responseBody));
+                return true;
             }
 
-            return null;
+            return false;
         }
 
-        public async Task<List<T>> GetAllAsync<T>(string requestUri)
+        public async Task<List<T>> GetAllAsync(string requestUri)
         {
 
             var requestMessage = new HttpRequestMessage(HttpMethod.Get, requestUri);
@@ -64,7 +63,7 @@ namespace BicycleRental.Client.Services
 
             var response = await _httpClient.SendAsync(requestMessage);
 
-            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 var responseBody = await response.Content.ReadAsStringAsync();
                 return await Task.FromResult(JsonConvert.DeserializeObject<List<T>>(responseBody));
@@ -84,7 +83,7 @@ namespace BicycleRental.Client.Services
 
             var response = await _httpClient.SendAsync(requestMessage);
 
-            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 var responseBody = await response.Content.ReadAsStringAsync();
                 return await Task.FromResult(JsonConvert.DeserializeObject<T>(responseBody));
@@ -103,7 +102,7 @@ namespace BicycleRental.Client.Services
 
             var response = await _httpClient.SendAsync(requestMessage);
 
-            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 var responseBody = await response.Content.ReadAsStringAsync();
                 return await Task.FromResult(JsonConvert.DeserializeObject<T>(responseBody));

@@ -12,7 +12,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var user in UserService.Users)
+        @foreach (var user in users)
         {
             <tr>
                 <td>@user.Email</td>
@@ -23,8 +23,11 @@
 </table>
 
 @code {
+
+    private List<UserDto> users = new List<UserDto>();
+
     protected override async Task OnInitializedAsync()
     {
-        await UserService.GetUsers();
+        users = await UserService.GetAllAsync("api/get");
     }
 }

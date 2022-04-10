@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BicycleRental.Shared.Dto.UseCaseRequest.User
+namespace BicycleRental.Shared.Dto
 {
-    public class UserDto
+    public class AuthDto
     {
         public string Email { get; set; }
         public string Password { get; set; }
-        public string Token { get; set; }
     }
 }
