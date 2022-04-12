@@ -5,17 +5,17 @@ using System.Text;
 
 namespace BicycleRental.Client.Services.Auth
 {
-    public class AuthSerivce : IAuthService
+    public class AuthService : IAuthService
     {
         private readonly HttpClient _httpClient;
-        public AuthSerivce(HttpClient httpClient)
+        public AuthService(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
-        public async Task<AuthDto> Login(AuthDto user)
+        public async Task<string> Login(AuthDto user)
         {
-            var requestMessage = new HttpRequestMessage(HttpMethod.Post, "api/auth/login");
+            var requestMessage = new HttpRequestMessage(HttpMethod.Post, "api/Auth/login");
 
             requestMessage.Content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
 
@@ -24,7 +24,7 @@ namespace BicycleRental.Client.Services.Auth
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 var responseBody = await response.Content.ReadAsStringAsync();
-                return await Task.FromResult(JsonConvert.DeserializeObject<AuthDto>(responseBody));
+                return responseBody;
             }
 
             return null;

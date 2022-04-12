@@ -57,7 +57,7 @@ namespace BicycleRental.Client.Services
         {
 
             var requestMessage = new HttpRequestMessage(HttpMethod.Get, requestUri);
-            var token = await _localStorageService.GetItemAsStringAsync("token");
+            var token = await _localStorageService.GetItemAsync<string>("token");
 
             requestMessage.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 

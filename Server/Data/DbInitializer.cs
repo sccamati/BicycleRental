@@ -1,7 +1,12 @@
-﻿namespace BicycleRental.Server.Data
+﻿using BicycleRental.Client.Services.Auth;
+using BicycleRental.Shared.Dto;
+using System.Security.Cryptography;
+
+namespace BicycleRental.Server.Data
 {
     public class DbInitializer
     {
+
         public static void Initialize(DataContext context)
         {
             context.Database.EnsureCreated();
@@ -21,11 +26,36 @@
             context.Roles.AddRange(roles);
             context.SaveChanges();
 
+            CreatePasswordHash("Password1", out byte[] passwordHash, out byte[] passwordSalt);
+
+            User user1 = new User
+            {
+                Email = "admin@wp.pl",
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt,
+                Role = roles[0]
+            };
+            User user2 = new User
+            {
+                Email = "user@wp.pl",
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt,
+                Role = roles[2]
+            };
+
+            User user3 = new User
+            {
+                Email = "owner@wp.pl",
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt,
+                Role = roles[1]
+            };
+
             var users = new User[]
             {
-                new User{Email = "admin@wp.pl", Password = "Password1.", Role = roles[0]},
-                new User{Email = "user@wp.pl", Password = "Password1.", Role = roles[2]},
-                new User{Email = "owner@wp.pl", Password = "Password1.", Role = roles[1]}
+                user1,
+                user2,
+                user3
             };
 
             context.Users.AddRange(users);
@@ -74,6 +104,16 @@
 
             context.Rentals.AddRange(rentals);
             context.SaveChanges();
+        }
+
+        private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        {
+            using (var hmac = new HMACSHA512())
+            {
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            }
+
         }
     }
 }

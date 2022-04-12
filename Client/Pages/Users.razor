@@ -28,6 +28,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        users = await UserService.GetAllAsync("api/get");
+        users = await UserService.GetAllAsync("api/user");
     }
 }

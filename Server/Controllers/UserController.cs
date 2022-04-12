@@ -1,9 +1,11 @@
 ﻿using BicycleRental.Server.Services.Interfaces;
 using BicycleRental.Shared.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BicycleRental.Server.Controllers
 {
+    [Authorize(Roles = "User")]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase

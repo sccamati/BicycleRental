@@ -18,7 +18,7 @@ namespace BicycleRental.Server.Services.Implementation
             _configuration = configuration;
         }
 
-        public async Task<string> Login(UserDto userDto)
+        public async Task<string> Login(AuthDto userDto)
         {
             User user = await _userRepository.GetByEmailWithRole(userDto.Email);
             if(!VerifyPasswordHash(userDto.Password, user))
@@ -31,7 +31,7 @@ namespace BicycleRental.Server.Services.Implementation
             return token;
         }
 
-        public async Task<User> Register(UserDto userDto)
+        public async Task<User> Register(AuthDto userDto)
         {
             CreatePasswordHash(userDto.Password, out byte[] passwordHash, out byte[] passwordSalt);
 

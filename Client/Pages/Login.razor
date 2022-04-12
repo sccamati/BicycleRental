@@ -1,8 +1,8 @@
 ﻿@page "/login"
-@using BicycleRental.Shared.Dto
 @inject ILocalStorageService LocalStorage
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthStateProvider
+@inject IAuthService authService
 <h3>Login</h3>
 
 <EditForm Model="user" OnSubmit="HandleLogin">
@@ -18,14 +18,22 @@
 </EditForm>
 
 @code {
-    private UserDto user = new UserDto();
+    private AuthDto user = new AuthDto();
 
     private async void HandleLogin()
     {
+        var token = await authService.Login(user);
+        if(token == null)
+        {
+
+        }
+        else
+        {
         await LocalStorage.SetItemAsync<string>("email", user.Email);
-        await LocalStorage.SetItemAsync<string>("token", user.Token);
+        await LocalStorage.SetItemAsync<string>("token", token);
         await AuthStateProvider.GetAuthenticationStateAsync();
         NavigationManager.NavigateTo("");
+        }
     }
     
 }

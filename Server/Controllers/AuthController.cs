@@ -1,4 +1,5 @@
-﻿using BicycleRental.Server.Services.Interfaces;
+﻿using AutoMapper;
+using BicycleRental.Server.Services.Interfaces;
 using BicycleRental.Shared.Dto;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,23 +12,30 @@ namespace BicycleRental.Server.Controllers
 
         private readonly IAuthService _authService;
         private readonly IUserService _userService;
+        private readonly IMapper _mapper;
 
-        public AuthController(IAuthService authService, IUserService userService)
+        public AuthController(IAuthService authService, IUserService userService, IMapper mapper)
         {
             _authService = authService;
             _userService = userService;
+            _mapper = mapper;
         }
 
-        [HttpPost]
-        public async Task<ActionResult<User>> Register(UserDto request)
+        [HttpPost("register")]
+        public async Task<ActionResult> Register(AuthDto request)
         {
             User user = await _authService.Register(request);
-            return Ok(user);
+            if (user == null)
+            {
+                return BadRequest();
+            }
+            return Ok();
 
         }
 
         [HttpPost]
-        public async Task<ActionResult<User>> Login(UserDto request)
+        [Route("Login")]
+        public async Task<ActionResult<User>> Login(AuthDto request)
         {
             if (!ModelState.IsValid)
             {
