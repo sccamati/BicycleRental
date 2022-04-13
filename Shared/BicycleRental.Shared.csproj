@@ -7,14 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Responses\**" />
+    <EmbeddedResource Remove="Responses\**" />
+    <None Remove="Responses\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
   </ItemGroup>
 
   <ItemGroup>
     <SupportedPlatform Include="browser" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Responses\" />
   </ItemGroup>
 </Project>

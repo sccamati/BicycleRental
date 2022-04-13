@@ -14,7 +14,7 @@ namespace BicycleRental.Server.Data
             modelBuilder.Entity<Bike>().ToTable("Bikes");
             modelBuilder.Entity<BikesType>().ToTable("BikesTypes");
             modelBuilder.Entity<Rental>().ToTable("Rentals");
-            modelBuilder.Entity<User>().ToTable("Users");
+            modelBuilder.Entity<User>().ToTable("Users").HasIndex(u => u.Email).IsUnique();
             modelBuilder.Entity<Role>().ToTable("Roles");
         }
 

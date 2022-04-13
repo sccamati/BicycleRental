@@ -39,7 +39,7 @@ namespace BicycleRental.Client.Services
             string uri = Path.Combine(requestUri, id.ToString());
 
             var requestMessage = new HttpRequestMessage(HttpMethod.Delete, uri);
-            var token = await _localStorageService.GetItemAsStringAsync("token");
+            var token = await _localStorageService.GetItemAsync<string>("token");
 
             requestMessage.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             
@@ -77,7 +77,7 @@ namespace BicycleRental.Client.Services
             string uri = Path.Combine(requestUri, id.ToString());
 
             var requestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
-            var token = await _localStorageService.GetItemAsStringAsync("token");
+            var token = await _localStorageService.GetItemAsync<string>("token");
 
             requestMessage.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
@@ -95,7 +95,7 @@ namespace BicycleRental.Client.Services
         public async Task<T> UpdateAsync(string requestUri, T entity)
         {
             var requestMessage = new HttpRequestMessage(HttpMethod.Put, requestUri);
-            var token = await _localStorageService.GetItemAsStringAsync("token");
+            var token = await _localStorageService.GetItemAsync<string>("token");
 
             requestMessage.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             requestMessage.Content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");

@@ -1,7 +1,9 @@
-﻿using BicycleRental.Server.Services.Interfaces;
+﻿using BicycleRental.Server.Helpers;
+using BicycleRental.Server.Services.Interfaces;
 using BicycleRental.Shared.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace BicycleRental.Server.Controllers
 {

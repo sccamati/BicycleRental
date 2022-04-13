@@ -1,9 +1,13 @@
-﻿using BicycleRental.Server.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
+﻿using BicycleRental.Server.Helpers;
+using BicycleRental.Server.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace BicycleRental.Server.Controllers
 {
+    [Authorize(Roles = "User")]
     [Route("api/[controller]")]
     [ApiController]
     public class RentalController : ControllerBase
@@ -20,19 +24,18 @@ namespace BicycleRental.Server.Controllers
         public async Task<ActionResult<List<Rental>>> Get()
         {
             var rentals = await _rentalService.GetAll();
-            
-            if(rentals == null)
+
+            if (rentals == null)
             {
                 return NotFound();
             }
             return Ok(rentals);
         }
 
-        [HttpGet("id")]
+        [HttpGet("userRentals")]
         public ActionResult<List<Rental>> GetUsersRentals()
         {
-            // find logged user
-            int id = 0;
+            int id = Jwt.GetId(Request.Headers.Authorization);
             var rentals = _rentalService.GetAllUsersRentals(id);
 
             if (rentals == null)
@@ -53,8 +56,8 @@ namespace BicycleRental.Server.Controllers
             //add logged user and create request dto
 
             var newRental = _rentalService.Add(rental);
-            
-            if(newRental == null)
+
+            if (newRental == null)
             {
                 return BadRequest();
             }
