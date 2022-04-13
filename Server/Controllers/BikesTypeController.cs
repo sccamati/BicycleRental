@@ -1,4 +1,6 @@
-﻿using BicycleRental.Server.Services.Interfaces;
+﻿using AutoMapper;
+using BicycleRental.Server.Services.Interfaces;
+using BicycleRental.Shared.Dto;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,17 +11,19 @@ namespace BicycleRental.Server.Controllers
     public class BikesTypeController : ControllerBase
     {
         private readonly IBikesTypeService _bikesTypeService;
-
-        public BikesTypeController(IBikesTypeService bikesTypeService)
+        private readonly IMapper _mapper;
+        public BikesTypeController(IBikesTypeService bikesTypeService, IMapper mapper)
         {
             _bikesTypeService = bikesTypeService;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<BikesType>>> Get()
+        public async Task<ActionResult<List<BikesTypeDto>>> Get()
         {
             var bikesTypes = await _bikesTypeService.GetAll();
-            return Ok(bikesTypes); 
+            var bikesDto = _mapper.Map<List<BikesType>, List<BikesTypeDto>>(bikesTypes);
+            return Ok(bikesDto); 
         }
 
         [HttpPost]
@@ -35,9 +39,14 @@ namespace BicycleRental.Server.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> Put(BikesType bikesType)
+        public async Task<ActionResult> Put(BikesTypeDto bikesType)
         {
-            await _bikesTypeService.Update(bikesType);
+            BikesType type = new BikesType
+            {
+                Id = bikesType.Id,
+                Name = bikesType.Name,
+            };
+            await _bikesTypeService.Update(type);
             return Ok();
         }
     }

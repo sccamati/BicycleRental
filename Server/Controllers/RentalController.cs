@@ -1,5 +1,7 @@
-﻿using BicycleRental.Server.Helpers;
+﻿using AutoMapper;
+using BicycleRental.Server.Helpers;
 using BicycleRental.Server.Services.Interfaces;
+using BicycleRental.Shared.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
@@ -14,14 +16,18 @@ namespace BicycleRental.Server.Controllers
     {
 
         private readonly IRentalService _rentalService;
+        private readonly IUserService _userService;
+        private readonly IMapper _mapper;
 
-        public RentalController(IRentalService rentalService)
+        public RentalController(IRentalService rentalService, IUserService userService, IMapper mapper)
         {
             _rentalService = rentalService;
+            _userService = userService;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Rental>>> Get()
+        public async Task<ActionResult<List<RentalDto>>> Get()
         {
             var rentals = await _rentalService.GetAll();
 
@@ -29,11 +35,12 @@ namespace BicycleRental.Server.Controllers
             {
                 return NotFound();
             }
-            return Ok(rentals);
+            var rentalsDto = _mapper.Map<List<Rental>, List<RentalDto>>(rentals);
+            return Ok(rentalsDto);
         }
 
         [HttpGet("userRentals")]
-        public ActionResult<List<Rental>> GetUsersRentals()
+        public ActionResult<List<RentalDto>> GetUsersRentals()
         {
             int id = Jwt.GetId(Request.Headers.Authorization);
             var rentals = _rentalService.GetAllUsersRentals(id);
@@ -42,27 +49,35 @@ namespace BicycleRental.Server.Controllers
             {
                 return NotFound();
             }
-            return Ok(rentals);
+            var rentalsDto = _mapper.Map<List<Rental>, List<RentalDto>>(rentals);
+            return Ok(rentalsDto);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Rental>> Post(Rental rental)
+        public async Task<ActionResult<RentalDto>> Post(RentalDto rental)
         {
             if (rental == null)
             {
                 return BadRequest();
             }
 
-            //add logged user and create request dto
+            string token = Request.Headers.Authorization;
 
-            var newRental = _rentalService.Add(rental);
+            Rental addRental = _mapper.Map<Rental>(rental);
+
+            User user = await _userService.GetById(Jwt.GetId(token));
+
+            addRental.User = user;
+
+            var newRental = _rentalService.Add(addRental);
 
             if (newRental == null)
             {
                 return BadRequest();
             }
 
-            return Ok(newRental);
+            var rentalsDto = _mapper.Map<RentalDto>(newRental);
+            return Ok(rentalsDto);
         }
 
         [HttpDelete]
