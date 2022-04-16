@@ -7,5 +7,10 @@ namespace BicycleRental.Server.Repositories.Implementation
         public BikeRepository(DataContext context) : base(context)
         {
         }
+
+        public new async Task<List<Bike>> GetAll()
+        {
+            return await _context.Bikes.Include(b => b.BikesType).ToListAsync();
+        }
     }
 }

@@ -17,7 +17,7 @@ namespace BicycleRental.Server.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet("allBikes")]
         public async Task<ActionResult<List<BikeDto>>> Get()
         {
             var bikes = await _bikeService.GetAllBikes();

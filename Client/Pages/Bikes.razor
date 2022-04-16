@@ -1,0 +1,40 @@
+﻿@page "/bikes"
+@inject IBikeService BikeService
+<PageTitle>Bikes</PageTitle>
+
+<h3>Bikes</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Serial Number</th>
+            <th>Brand</th>
+            <th>IsBorrowed</th>
+            <th>Production Date</th>
+            <th>Type</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var bike in bikes)
+        {
+            <tr>
+                <td>@bike.SerialNumber</td>
+                <td>@bike.Brand</td>
+                <td>@bike.IsBorrowed</td>
+                <td>@bike.ProductionDate</td>
+                <td>@bike.BikesType.Name</td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+
+    private List<BikeDto> bikes = new List<BikeDto>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        bikes = await BikeService.GetAllAsync("api/bike/allBikes");
+    }
+}

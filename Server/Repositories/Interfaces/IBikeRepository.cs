@@ -2,5 +2,7 @@
 {
     public interface IBikeRepository : IRepository<Bike>
     {
+        new Task<List<Bike>> GetAll();
     }
 }
+

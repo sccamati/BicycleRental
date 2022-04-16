@@ -13,7 +13,7 @@ namespace BicycleRental.Shared.Dto
         public string Brand { get; set; }
         public bool IsBorrowed { get; set; }
         public int ProductionDate { get; set; }
-        public BikesType BikesType { get; set; }
+        public BikesTypeDto BikesType { get; set; }
 
     }
 }
