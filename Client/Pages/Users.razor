@@ -1,5 +1,6 @@
 ﻿@page "/users"
 @inject IUserService UserService
+@inject IMatToaster Toaster
 <PageTitle>Users</PageTitle>
 
 <h3>Users</h3>
@@ -9,6 +10,7 @@
         <tr>
             <th>Email</th>
             <th>Role</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -17,17 +19,34 @@
             <tr>
                 <td>@user.Email</td>
                 <td>@user.Role.Name</td>
+                <td>
+                    <button class="btn btn-primary">Edit</button>
+                    <button class="btn btn-danger" @onclick="() => DeleteUser(user)">Delete</button>
+                </td>
             </tr>
         }
     </tbody>
 </table>
 
 @code {
-
     private List<UserDto> users = new List<UserDto>();
 
     protected override async Task OnInitializedAsync()
     {
         users = await UserService.GetAllAsync("api/user");
+    }
+
+    protected async Task DeleteUser(UserDto user)
+    {
+        var result = await UserService.DeleteByIdAsync("api/user", user);
+
+        if (result)
+        {
+            users.Remove(user);
+        }
+        else
+        {
+            Toaster.Add("Error during remove user. Try Again", MatToastType.Danger);
+        }
     }
 }

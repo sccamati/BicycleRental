@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BicycleRental.Client.Services
 {
-    public class Service<T> : IService<T> where T : class
+    public class Service<T> : IService<T> where T : BaseEntity
     {
         private readonly HttpClient _httpClient;
         private readonly ILocalStorageService _localStorageService;
@@ -34,9 +34,9 @@ namespace BicycleRental.Client.Services
             return null;
         }
 
-        public async Task<bool> DeleteByIdAsync(string requestUri, int id)
+        public async Task<bool> DeleteByIdAsync(string requestUri, T entity)
         {
-            string uri = Path.Combine(requestUri, id.ToString());
+            string uri = Path.Combine(requestUri, entity.Id.ToString());
 
             var requestMessage = new HttpRequestMessage(HttpMethod.Delete, uri);
             var token = await _localStorageService.GetItemAsync<string>("token");
@@ -72,9 +72,9 @@ namespace BicycleRental.Client.Services
             return null;
         }
 
-        public async Task<T> GetByIdAync(string requestUri, int id)
+        public async Task<T> GetByIdAync(string requestUri, T entity)
         {
-            string uri = Path.Combine(requestUri, id.ToString());
+            string uri = Path.Combine(requestUri, entity.ToString());
 
             var requestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
             var token = await _localStorageService.GetItemAsync<string>("token");

@@ -45,7 +45,7 @@ namespace BicycleRental.Server.Controllers
             return Ok(users);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
             await _userService.DeleteById(id);

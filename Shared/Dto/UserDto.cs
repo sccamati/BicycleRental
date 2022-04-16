@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace BicycleRental.Shared.Dto
 {
-    public class UserDto
+    public class UserDto : BaseEntity
     {
-        public int Id { get; set; }
         public string Email { get; set; }
         public Role Role { get; set; }
         public List<Rental> Rentals { get; set; }

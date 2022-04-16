@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BicycleRental.Shared.Dto
 {
-    public class AuthDto
+    public class AuthDto : BaseEntity
     {
         public string Email { get; set; }
         public string Password { get; set; }
