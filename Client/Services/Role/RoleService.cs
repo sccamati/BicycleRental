@@ -8,5 +8,7 @@ namespace BicycleRental.Client.Services.Role
         public RoleService(HttpClient httpClient, ILocalStorageService localStorageService) : base(httpClient, localStorageService)
         {
         }
+
+        public List<RoleDto> Roles { get; set; }
     }
 }

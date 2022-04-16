@@ -15,13 +15,13 @@ namespace BicycleRental.Client
         {
             var state = new AuthenticationState(new ClaimsPrincipal());
 
-            string email = await _localStorage.GetItemAsStringAsync("email");
-            if (!string.IsNullOrEmpty(email))
+            string token = await _localStorage.GetItemAsStringAsync("token");
+            if (!string.IsNullOrEmpty(token))
             {
                 var identity = new ClaimsIdentity(new[]
                 {
-                    new Claim(ClaimTypes.Name, email),
-                }, "test authentication type");
+                    new Claim("token", token),
+                }, "Jwt authentication type");
 
                 state = new AuthenticationState(new ClaimsPrincipal(identity));
             }

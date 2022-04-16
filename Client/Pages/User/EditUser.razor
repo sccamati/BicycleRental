@@ -1,0 +1,52 @@
+﻿@page "/editUser/{id}"
+@inject IUserService UserService
+@inject IRoleService RoleService
+@inject IMatToaster Toaster
+
+<PageTitle>Edit User</PageTitle>
+
+<h3>EditUser</h3>
+
+<EditForm Model="user" OnSubmit="HandleEdit">
+    <div class="form-group">
+        <label for="email">Email</label>
+        <InputText id="email" @bind-Value="user.Email" class="form-control" type="email"></InputText>
+    </div>
+    <InputSelect class="form-control d-flex" @bind-Value="user.Role.Id">
+        @foreach (var role in roles)
+        {
+            <option value=@role.Id>@role.Name</option>
+        }
+    </InputSelect>
+    <button type="submit" class="btn btn-primary">Edit</button>
+</EditForm>
+
+
+@code {
+
+    [Parameter]
+    public string Id { get; set; }
+
+    public UserDto user;
+    public List<RoleDto> roles;
+
+    protected override async Task OnInitializedAsync()
+    {
+        user = await UserService.GetByIdAync("api/user", Convert.ToInt32(Id));
+        roles = await RoleService.GetAllAsync("api/role");
+    }
+
+    private async void HandleEdit()
+    {
+        bool result = await UserService.UpdateAsync("api/user", UserService.User);
+
+        if (result)
+        {
+            Toaster.Add("User Edited", MatToastType.Success);
+        }
+        else
+        {
+            Toaster.Add("Eroor during edit user. Try Again", MatToastType.Danger);
+        }
+    }
+}

@@ -12,6 +12,7 @@ namespace BicycleRental.Server
             CreateMap<Bike, BikeDto>().ReverseMap();
             CreateMap<Rental, RentalDto>().ReverseMap();
             CreateMap<BikesType, BikesTypeDto>().ReverseMap();
+            CreateMap<Role, RoleDto>().ReverseMap();
         }
     }
 }

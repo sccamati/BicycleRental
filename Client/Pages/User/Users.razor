@@ -1,6 +1,8 @@
 ﻿@page "/users"
 @inject IUserService UserService
+@inject IRoleService RoleService
 @inject IMatToaster Toaster
+@inject NavigationManager NavigationManager
 <PageTitle>Users</PageTitle>
 
 <h3>Users</h3>
@@ -14,13 +16,13 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var user in users)
+        @foreach (var user in UserService.Users)
         {
             <tr>
                 <td>@user.Email</td>
                 <td>@user.Role.Name</td>
                 <td>
-                    <button class="btn btn-primary">Edit</button>
+                    <button class="btn btn-primary" @onclick="() => NavivateToEdit(user)">Edit</button>
                     <button class="btn btn-danger" @onclick="() => DeleteUser(user)">Delete</button>
                 </td>
             </tr>
@@ -29,24 +31,30 @@
 </table>
 
 @code {
-    private List<UserDto> users = new List<UserDto>();
 
     protected override async Task OnInitializedAsync()
     {
-        users = await UserService.GetAllAsync("api/user");
+        UserService.Users = await UserService.GetAllAsync("api/user");
     }
 
     protected async Task DeleteUser(UserDto user)
     {
-        var result = await UserService.DeleteByIdAsync("api/user", user);
+        var result = await UserService.DeleteByIdAsync("api/user", user.Id);
 
         if (result)
         {
-            users.Remove(user);
+             UserService.Users.Remove(user);
         }
         else
         {
             Toaster.Add("Error during remove user. Try Again", MatToastType.Danger);
         }
     }
+    protected async Task NavivateToEdit(UserDto user)
+    {
+        UserService.User = user;
+        RoleService.Roles = await RoleService.GetAllAsync("api/role");
+        NavigationManager.NavigateTo($"editUser/{user.Id}");
+    }
+
 }

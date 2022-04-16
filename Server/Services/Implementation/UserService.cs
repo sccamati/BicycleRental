@@ -24,7 +24,7 @@ namespace BicycleRental.Server.Services.Implementation
 
         public async Task<UserDto> GetByIdWithRentals(int id)
         {
-            var user = await _userRepository.GetById(id);
+            var user = await _userRepository.GetByIdWithRentals(id);
             return _mapper.Map<UserDto>(user);
         }
     }

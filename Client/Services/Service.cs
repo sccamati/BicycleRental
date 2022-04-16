@@ -34,9 +34,9 @@ namespace BicycleRental.Client.Services
             return null;
         }
 
-        public async Task<bool> DeleteByIdAsync(string requestUri, T entity)
+        public async Task<bool> DeleteByIdAsync(string requestUri, int id)
         {
-            string uri = Path.Combine(requestUri, entity.Id.ToString());
+            string uri = Path.Combine(requestUri, id.ToString());
 
             var requestMessage = new HttpRequestMessage(HttpMethod.Delete, uri);
             var token = await _localStorageService.GetItemAsync<string>("token");
@@ -72,9 +72,9 @@ namespace BicycleRental.Client.Services
             return null;
         }
 
-        public async Task<T> GetByIdAync(string requestUri, T entity)
+        public async Task<T> GetByIdAync(string requestUri, int id)
         {
-            string uri = Path.Combine(requestUri, entity.ToString());
+            string uri = Path.Combine(requestUri, id.ToString());
 
             var requestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
             var token = await _localStorageService.GetItemAsync<string>("token");
@@ -92,7 +92,7 @@ namespace BicycleRental.Client.Services
             return null;
         }
 
-        public async Task<T> UpdateAsync(string requestUri, T entity)
+        public async Task<bool> UpdateAsync(string requestUri, T entity)
         {
             var requestMessage = new HttpRequestMessage(HttpMethod.Put, requestUri);
             var token = await _localStorageService.GetItemAsync<string>("token");
@@ -104,11 +104,10 @@ namespace BicycleRental.Client.Services
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                var responseBody = await response.Content.ReadAsStringAsync();
-                return await Task.FromResult(JsonConvert.DeserializeObject<T>(responseBody));
+                return true;
             }
 
-            return null;
+            return false;
         }
     }
 }

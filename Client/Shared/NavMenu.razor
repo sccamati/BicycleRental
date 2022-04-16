@@ -40,13 +40,14 @@
                     <NavLink class="nav-link" href="login">
                         <span class="oi oi-account-login" aria-hidden="true"></span> Login
                     </NavLink>
-
+                    <NavLink class="nav-link" href="register">
+                        <span class="oi oi-account-login" aria-hidden="true"></span> Register
+                    </NavLink>
                 </NotAuthorized>
                 <Authorized>
                     <a class="nav-link" @onclick="Logout" style="cursor: pointer">
                         <span class="oi oi-account-logout" aria-hidden="true"></span> Logout
                     </a>
-
                 </Authorized>
             </AuthorizeView>
         </div>
@@ -65,7 +66,7 @@
 
     private async void Logout()
     {
-        await LocalStorage.RemoveItemAsync("email");
+        await LocalStorage.RemoveItemAsync("token");
         await AuthStateProvider.GetAuthenticationStateAsync();
     }
 }

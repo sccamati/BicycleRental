@@ -12,6 +12,6 @@ namespace BicycleRental.Client.Services.UserService
         }
 
         public List<UserDto> Users { get; set; } = new List<UserDto>();
-
+        public UserDto User { get; set; }
     }
 }
