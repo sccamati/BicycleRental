@@ -2,7 +2,7 @@
 @inject ILocalStorageService LocalStorage
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthStateProvider
-@inject IAuthService authService
+@inject IAuthService AuthService
 <h3>Login</h3>
 
 <EditForm Model="user" OnSubmit="HandleLogin">
@@ -16,23 +16,21 @@
     </div>
     <button type="submit" class="btn btn-primary">Login</button>
 </EditForm>
-
+<span class="text-danger">@message</span>
 @code {
     private AuthDto user = new AuthDto();
-
+    private string message = "";
     private async void HandleLogin()
     {
-        var token = await authService.Login(user);
+        var token = await AuthService.Login(user);
         if (token == null)
         {
-
+            message = "Invalid password";
+            return;
         }
-        else
-        {
-            await LocalStorage.SetItemAsync<string>("token", token);
-            await AuthStateProvider.GetAuthenticationStateAsync();
-            NavigationManager.NavigateTo("");
-        }
+        await LocalStorage.SetItemAsync<string>("token", token);
+        await AuthStateProvider.GetAuthenticationStateAsync();
+        NavigationManager.NavigateTo("");
     }
 
 }

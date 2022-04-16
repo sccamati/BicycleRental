@@ -1,4 +1,5 @@
-﻿using BicycleRental.Server.Repositories.Interfaces;
+﻿using AutoMapper;
+using BicycleRental.Server.Repositories.Interfaces;
 using BicycleRental.Server.Services.Interfaces;
 using BicycleRental.Shared.Dto;
 using Microsoft.IdentityModel.Tokens;
@@ -11,11 +12,15 @@ namespace BicycleRental.Server.Services.Implementation
     public class AuthService : Service<User>, IAuthService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IRoleRepository _roleRepository;
         private readonly IConfiguration _configuration;
-        public AuthService(IRepository<User> repository, IUserRepository userRepository, IConfiguration configuration) : base(repository)
+        private readonly IMapper _mapper;
+        public AuthService(IRepository<User> repository, IUserRepository userRepository, IRoleRepository roleRepository, IConfiguration configuration, IMapper mapper) : base(repository)
         {
             _userRepository = userRepository;
             _configuration = configuration;
+            _roleRepository = roleRepository;
+            _mapper = mapper;
         }
 
         public async Task<string> Login(AuthDto userDto)
@@ -31,20 +36,28 @@ namespace BicycleRental.Server.Services.Implementation
             return token;
         }
 
-        public async Task<User> Register(AuthDto userDto)
+        public async Task<AuthDto?> Register(AuthRegisterDto userDto)
         {
+            if(userDto.Password != userDto.ConfirmPassword)
+            {
+                return null;
+            }
+
             CreatePasswordHash(userDto.Password, out byte[] passwordHash, out byte[] passwordSalt);
+
+            var role = await _roleRepository.GetByName("user");
 
             User user = new User
             {
                 Email = userDto.Email,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
+                Role = role,
             };
 
             var newUser = await _repository.Add(user);
-
-            return newUser;
+            var response = _mapper.Map<AuthDto>(newUser);
+            return response;
         }
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)

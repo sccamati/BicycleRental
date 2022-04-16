@@ -8,7 +8,8 @@ namespace BicycleRental.Server
         public AutoMaperProfile()
         {
             CreateMap<User, UserDto>().ReverseMap();
-            CreateMap<Bike, BikeDto>();
+            CreateMap<User, AuthDto>().ReverseMap();
+            CreateMap<Bike, BikeDto>().ReverseMap();
             CreateMap<Rental, RentalDto>().ReverseMap();
             CreateMap<BikesType, BikesTypeDto>().ReverseMap();
         }

@@ -22,9 +22,9 @@ namespace BicycleRental.Server.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult> Register(AuthDto request)
+        public async Task<ActionResult> Register(AuthRegisterDto request)
         {
-            User user = await _authService.Register(request);
+            AuthDto user = await _authService.Register(request);
             if (user == null)
             {
                 return BadRequest();

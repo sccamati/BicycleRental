@@ -30,7 +30,7 @@ namespace BicycleRental.Client.Services.Auth
             return null;
         }
 
-        public async Task<AuthDto> Register(AuthDto user)
+        public async Task<bool> Register(AuthRegisterDto user)
         {
             var requestMessage = new HttpRequestMessage(HttpMethod.Post, "api/auth/register");
 
@@ -40,11 +40,10 @@ namespace BicycleRental.Client.Services.Auth
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                var responseBody = await response.Content.ReadAsStringAsync();
-                return await Task.FromResult(JsonConvert.DeserializeObject<AuthDto>(responseBody));
+                return true;
             }
 
-            return null;
+            return false;
         }
     }
 }
