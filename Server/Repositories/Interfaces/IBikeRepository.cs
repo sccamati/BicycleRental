@@ -3,6 +3,7 @@
     public interface IBikeRepository : IRepository<Bike>
     {
         new Task<List<Bike>> GetAll();
+        new Task<Bike> GetById(int id);
     }
 }
 

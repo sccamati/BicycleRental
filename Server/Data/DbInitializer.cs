@@ -35,19 +35,22 @@ namespace BicycleRental.Server.Data
                 PasswordSalt = passwordSalt,
                 Role = roles[0]
             };
+
+            CreatePasswordHash("Password1", out byte[] passwordHash1, out byte[] passwordSalt1);
             User user2 = new User
             {
                 Email = "user@wp.pl",
-                PasswordHash = passwordHash,
-                PasswordSalt = passwordSalt,
+                PasswordHash = passwordHash1,
+                PasswordSalt = passwordSalt1,
                 Role = roles[2]
             };
 
+            CreatePasswordHash("Password1", out byte[] passwordHash2, out byte[] passwordSalt2);
             User user3 = new User
             {
                 Email = "owner@wp.pl",
-                PasswordHash = passwordHash,
-                PasswordSalt = passwordSalt,
+                PasswordHash = passwordHash2,
+                PasswordSalt = passwordSalt2,
                 Role = roles[1]
             };
 
@@ -82,11 +85,11 @@ namespace BicycleRental.Server.Data
 
             var bikes = new Bike[]
             {
-                new Bike{BikesType = bikesTypes[0], ProductionDate = DateTime.Now.Year, SerialNumber="123456123", Brand = brands[0]},
-                new Bike{BikesType = bikesTypes[1], ProductionDate = DateTime.Now.Year, SerialNumber="123456121", Brand = brands[1]},
-                new Bike{BikesType = bikesTypes[2], ProductionDate = DateTime.Now.Year, SerialNumber="123456122", Brand = brands[2]},
-                new Bike{BikesType = bikesTypes[3], ProductionDate = DateTime.Now.Year, SerialNumber="123456124", Brand = brands[3]},
-                new Bike{BikesType = bikesTypes[1], ProductionDate = DateTime.Now.Year, SerialNumber="123456125", Brand = brands[0]},
+                new Bike{BikesType = bikesTypes[0], ProductionDate = DateTime.Now.Year, SerialNumber="123456123", Brand = brands[0], PricePerHour = 30},
+                new Bike{BikesType = bikesTypes[1], ProductionDate = DateTime.Now.Year, SerialNumber="123456121", Brand = brands[1], PricePerHour = 34},
+                new Bike{BikesType = bikesTypes[2], ProductionDate = DateTime.Now.Year, SerialNumber="123456122", Brand = brands[2], PricePerHour = 45},
+                new Bike{BikesType = bikesTypes[3], ProductionDate = DateTime.Now.Year, SerialNumber="123456124", Brand = brands[3], PricePerHour = 22},
+                new Bike{BikesType = bikesTypes[1], ProductionDate = DateTime.Now.Year, SerialNumber="123456125", Brand = brands[0], PricePerHour = 15},
             };
 
             context.Bikes.AddRange(bikes);

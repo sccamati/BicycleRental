@@ -20,7 +20,8 @@ namespace BicycleRental.Server.Repositories.Implementation
 
         public async Task<User> GetByIdWithRentals(int id)
         {
-            return await _context.Users.Include(u => u.Role).Include(u => u.Rentals).SingleAsync(u => u.Id == id);
+            var users = await _context.Users.Include(u => u.Role).Include(u => u.Rentals).ThenInclude(r => r.Bike).ToListAsync();
+            return users.Single(u => u.Id == id);
         }
     }
 }

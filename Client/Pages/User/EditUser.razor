@@ -3,17 +3,15 @@
 @inject IRoleService RoleService
 @inject IMatToaster Toaster
 
-<PageTitle>Edit User</PageTitle>
-
 <h3>EditUser</h3>
 
-<EditForm Model="user" OnSubmit="HandleEdit">
+<EditForm Model="UserService.User" OnSubmit="HandleEdit">
     <div class="form-group">
         <label for="email">Email</label>
-        <InputText id="email" @bind-Value="user.Email" class="form-control" type="email"></InputText>
+        <InputText id="email" @bind-Value="UserService.User.Email" class="form-control" type="email"></InputText>
     </div>
-    <InputSelect class="form-control d-flex" @bind-Value="user.Role.Id">
-        @foreach (var role in roles)
+    <InputSelect class="form-control d-flex" @bind-Value="UserService.User.Role.Id">
+        @foreach (var role in RoleService.Roles)
         {
             <option value=@role.Id>@role.Name</option>
         }
@@ -27,13 +25,10 @@
     [Parameter]
     public string Id { get; set; }
 
-    public UserDto user;
-    public List<RoleDto> roles;
-
     protected override async Task OnInitializedAsync()
     {
-        user = await UserService.GetByIdAync("api/user", Convert.ToInt32(Id));
-        roles = await RoleService.GetAllAsync("api/role");
+        UserService.User = await UserService.GetByIdAync("api/user", Convert.ToInt32(Id));
+        RoleService.Roles = await RoleService.GetAllAsync("api/role");
     }
 
     private async void HandleEdit()

@@ -1,0 +1,45 @@
+﻿@page "/userDetails/{id}"
+@inject IUserService UserService
+<h3>User Details</h3>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Email
+        </dt>
+        <dd class="col-sm-10">
+            @UserService.User.Email
+        </dd>
+        <dt class="col-sm-2">
+            Role
+        </dt>
+        <dd class="col-sm-2">
+            @UserService.User.Role.Name
+        </dd>
+    </dl>
+
+    <MatTable Items="@UserService.User.Rentals" class="mat-elevation-z5">
+        <MatTableHeader>
+            <th>Start</th>
+            <th>End</th>
+            <th>Price</th>
+            <th>Bike</th>
+        </MatTableHeader>
+        <MatTableRow>
+            <td>@context.StartDate</td>
+            <td>@context.EndDate</td>
+            <td>@context.Price</td>
+            <td>@context.Bike.Brand</td>
+        </MatTableRow>
+    </MatTable>
+</div>
+
+@code {
+
+    [Parameter]
+    public string Id { get; set; }
+
+    protected override async Task OnInitializedAsync() => UserService.User = await UserService.GetByIdAync("api/user", Convert.ToInt32(Id));
+
+}

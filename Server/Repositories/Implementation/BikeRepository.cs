@@ -12,5 +12,10 @@ namespace BicycleRental.Server.Repositories.Implementation
         {
             return await _context.Bikes.Include(b => b.BikesType).ToListAsync();
         }
+
+        public new async Task<Bike> GetById(int id)
+        {
+            return await _context.Bikes.Include(b => b.BikesType).SingleAsync(b => b.Id == id);
+        }
     }
 }

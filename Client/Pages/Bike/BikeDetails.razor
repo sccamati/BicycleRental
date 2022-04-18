@@ -1,0 +1,54 @@
+﻿@page "/bikeDetails/{id}"
+@inject IBikeService BikeService
+<h3>Bike Details</h3>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Brand
+        </dt>
+        <dd class="col-sm-10">
+            @BikeService.Bike.Brand
+        </dd>
+        <dt class="col-sm-2">
+            Availability
+        </dt>
+        <dd class="col-sm-10">
+            @BikeService.Bike.IsBorrowed
+        </dd>
+        <dt class="col-sm-2">
+            Production Year
+        </dt>
+        <dd class="col-sm-10">
+            @BikeService.Bike.ProductionDate
+        </dd>
+        <dt class="col-sm-2">
+            Production Year
+        </dt>
+        <dd class="col-sm-10">
+            @BikeService.Bike.ProductionDate
+        </dd>
+        <dt class="col-sm-2">
+            Type
+        </dt>
+        <dd class="col-sm-10">
+            @BikeService.Bike.BikesType.Name
+        </dd>
+        <dt class="col-sm-2">
+            Price Per Hour
+        </dt>
+        <dd class="col-sm-2">
+            @BikeService.Bike.PricePerHour
+        </dd>
+    </dl>
+
+</div>
+
+@code {
+
+    [Parameter]
+    public string Id { get; set; }
+    protected override async Task OnInitializedAsync() => BikeService.Bike = await BikeService.GetByIdAync("api/bike", Convert.ToInt32(Id));
+
+}

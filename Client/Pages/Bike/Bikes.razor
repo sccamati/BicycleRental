@@ -1,0 +1,49 @@
+﻿@page "/bikes"
+@inject IBikeService BikeService
+@inject NavigationManager NavigationManager
+
+<h3>Bikes</h3>
+
+<MatTable Items="@bikes" class="mat-elevation-z5" FilterByColumnName="Brand">
+    <MatTableHeader>
+        <th>Serial Number</th>
+        <th>Brand</th>
+        <th>Availability</th>
+        <th>Production Date</th>
+        <th>Type</th>
+        <th>Price Per Hour</th>
+        <th>Actions</th>
+    </MatTableHeader>
+    <MatTableRow>
+        <td>@context.SerialNumber</td>
+        <td>@context.Brand</td>
+        <td>@IsBorrowed(context.IsBorrowed)</td>
+        <td>@context.ProductionDate</td>
+        <td>@context.BikesType.Name</td>
+        <td>@context.PricePerHour</td>
+        <td>
+            <button class="btn btn-warning" @onclick="() => NavigateToDetails(context)">Details</button>
+        </td>
+    </MatTableRow>
+</MatTable>
+
+@code {
+
+    private List<BikeDto> bikes = new List<BikeDto>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        bikes = await BikeService.GetAllAsync("api/bike/allBikes");
+    }
+
+    private string IsBorrowed(bool borrowed)
+    {
+        return borrowed ? "Rented" : "Available";
+    }
+
+    protected async Task NavigateToDetails(BikeDto bike)
+    {
+        BikeService.Bike = await BikeService.GetByIdAync("api/bike", bike.Id);
+        NavigationManager.NavigateTo($"bikeDetails/{bike.Id}");
+    }
+}

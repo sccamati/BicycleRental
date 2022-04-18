@@ -24,7 +24,7 @@ namespace BicycleRental.Server.Controllers
             return Ok(bikes);
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<ActionResult<BikeDto>> Get(int id)
         {
             var bike = await _bikeService.GetById(id);

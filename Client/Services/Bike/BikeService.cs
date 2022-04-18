@@ -8,5 +8,7 @@ namespace BicycleRental.Client.Services.Bike
         public BikeService(HttpClient httpClient, ILocalStorageService localStorageService) : base(httpClient, localStorageService)
         {
         }
+
+        public BikeDto Bike { get; set; }
     }
 }

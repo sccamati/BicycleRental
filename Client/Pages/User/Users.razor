@@ -7,28 +7,22 @@
 
 <h3>Users</h3>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in UserService.Users)
-        {
-            <tr>
-                <td>@user.Email</td>
-                <td>@user.Role.Name</td>
-                <td>
-                    <button class="btn btn-primary" @onclick="() => NavivateToEdit(user)">Edit</button>
-                    <button class="btn btn-danger" @onclick="() => DeleteUser(user)">Delete</button>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<MatTable Items="@UserService.Users" class="mat-elevation-z5" FilterByColumnName="Email">
+    <MatTableHeader>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Actions</th>
+    </MatTableHeader>
+    <MatTableRow>
+        <td>@context.Email</td>
+        <td>@context.Role.Name</td>
+        <td>
+            <button class="btn btn-primary" @onclick="() => NavigateToEdit(context)">Edit</button>
+            <button class="btn btn-danger" @onclick="() => DeleteUser(context)">Delete</button>
+            <button class="btn btn-warning" @onclick="() => NavigateToDetails(context)">Details</button>
+        </td>
+    </MatTableRow>
+</MatTable>
 
 @code {
 
@@ -43,18 +37,25 @@
 
         if (result)
         {
-             UserService.Users.Remove(user);
+            UserService.Users.Remove(user);
         }
         else
         {
             Toaster.Add("Error during remove user. Try Again", MatToastType.Danger);
         }
     }
-    protected async Task NavivateToEdit(UserDto user)
+    protected async Task NavigateToEdit(UserDto user)
     {
         UserService.User = user;
         RoleService.Roles = await RoleService.GetAllAsync("api/role");
         NavigationManager.NavigateTo($"editUser/{user.Id}");
+    }
+
+    protected async Task NavigateToDetails(UserDto user)
+    {
+        UserService.User = user;
+        RoleService.Roles = await RoleService.GetAllAsync("api/role");
+        NavigationManager.NavigateTo($"userDetails/{user.Id}");
     }
 
 }
