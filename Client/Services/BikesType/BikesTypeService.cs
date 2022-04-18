@@ -7,6 +7,10 @@ namespace BicycleRental.Client.Services.BikesType
     {
         public BikesTypeService(HttpClient httpClient, ILocalStorageService localStorageService) : base(httpClient, localStorageService)
         {
+
         }
+        public List<BikesTypeDto> Types { get; set; }
+
     }
+
 }

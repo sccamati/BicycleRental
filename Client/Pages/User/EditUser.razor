@@ -10,7 +10,8 @@
         <label for="email">Email</label>
         <InputText id="email" @bind-Value="UserService.User.Email" class="form-control" type="email"></InputText>
     </div>
-    <InputSelect class="form-control d-flex" @bind-Value="UserService.User.Role.Id">
+    <label for="role">Role</label>
+    <InputSelect id="role" class="form-control d-flex" @bind-Value="UserService.User.Role.Id">
         @foreach (var role in RoleService.Roles)
         {
             <option value=@role.Id>@role.Name</option>

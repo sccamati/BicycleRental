@@ -1,0 +1,56 @@
+﻿@page "/editBike/{id}"
+@inject IBikeService BikeService
+@inject IBikesTypeService BikesTypeService
+@inject IMatToaster Toaster
+
+<h3>Bike Edit</h3>
+
+<EditForm Model="BikeService.Bike" OnSubmit="HandleEdit">
+    <div class="form-group">
+        <label for="brand">Brand</label>
+        <InputText id="brand" @bind-Value="BikeService.Bike.Brand" class="form-control"></InputText>
+    </div>
+    <div class="form-group">
+        <label for="productionYear">Production Year</label>
+        <InputNumber id="productionYear" @bind-Value="BikeService.Bike.ProductionDate" class="form-control" ></InputNumber>
+    </div>
+    <div class="form-group">
+        <label for="pricePerHour">Price Per Hour</label>
+        <InputNumber id="pricePerHour" @bind-Value="BikeService.Bike.PricePerHour" class="form-control" type="number"></InputNumber>
+    </div>
+    <label for="type">Type</label>
+    <InputSelect id="type" class="form-control d-flex" @bind-Value="BikeService.Bike.BikesType.Id">
+        @foreach (var type in BikesTypeService.Types)
+        {
+            <option value=@type.Id>@type.Name</option>
+        }
+    </InputSelect>
+    <button type="submit" class="btn btn-primary">Edit</button>
+</EditForm>
+
+
+@code {
+
+    [Parameter]
+    public string Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        BikeService.Bike = await BikeService.GetByIdAync("api/bike", Convert.ToInt32(Id));
+        BikesTypeService.Types = await BikesTypeService.GetAllAsync("api/bikesType");
+    }
+
+    private async void HandleEdit()
+    {
+        bool result = await BikeService.UpdateAsync("api/bike", BikeService.Bike);
+
+        if (result)
+        {
+            Toaster.Add("Bike Edited", MatToastType.Success);
+        }
+        else
+        {
+            Toaster.Add("Error during edit bike. Try Again", MatToastType.Danger);
+        }
+    }
+}

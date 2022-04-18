@@ -1,5 +1,6 @@
 ﻿@page "/bikes"
 @inject IBikeService BikeService
+@inject IBikesTypeService BikesTypeService
 @inject NavigationManager NavigationManager
 
 <h3>Bikes</h3>
@@ -22,6 +23,7 @@
         <td>@context.BikesType.Name</td>
         <td>@context.PricePerHour</td>
         <td>
+            <button class="btn btn-primary" @onclick="() => NavigateToEdit(context)">Edit</button>
             <button class="btn btn-warning" @onclick="() => NavigateToDetails(context)">Details</button>
         </td>
     </MatTableRow>
@@ -45,5 +47,12 @@
     {
         BikeService.Bike = await BikeService.GetByIdAync("api/bike", bike.Id);
         NavigationManager.NavigateTo($"bikeDetails/{bike.Id}");
+    }
+
+    protected async Task NavigateToEdit(BikeDto bike)
+    {
+        BikeService.Bike = await BikeService.GetByIdAync("api/bike", bike.Id);
+        BikesTypeService.Types = await BikesTypeService.GetAllAsync("api/bikesType");
+        NavigationManager.NavigateTo($"editBike/{bike.Id}");
     }
 }
