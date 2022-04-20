@@ -53,5 +53,20 @@ namespace BicycleRental.Server.Controllers
             await _bikeService.Update(updateBike);
             return Ok();
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            try
+            {
+                await _bikeService.DeleteById(id);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            return Ok();
+        }
     }
 }

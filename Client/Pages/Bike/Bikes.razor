@@ -1,6 +1,7 @@
 ﻿@page "/bikes"
 @inject IBikeService BikeService
 @inject IBikesTypeService BikesTypeService
+@inject IMatToaster Toaster
 @inject NavigationManager NavigationManager
 
 <h3>Bikes</h3>
@@ -25,6 +26,7 @@
         <td>
             <button class="btn btn-primary" @onclick="() => NavigateToEdit(context)">Edit</button>
             <button class="btn btn-warning" @onclick="() => NavigateToDetails(context)">Details</button>
+            <button class="btn btn-danger" @onclick="() => Delete(context)">Delete</button>
         </td>
     </MatTableRow>
 </MatTable>
@@ -41,6 +43,20 @@
     private string IsBorrowed(bool borrowed)
     {
         return borrowed ? "Rented" : "Available";
+    }
+
+    protected async Task Delete(BikeDto bike)
+    {
+        var result = await BikeService.DeleteByIdAsync("api/bike", bike.Id);
+
+        if (result)
+        {
+            bikes.Remove(bike);
+        }
+        else
+        {
+            Toaster.Add("Error during remove bike. Try Again", MatToastType.Danger);
+        }
     }
 
     protected async Task NavigateToDetails(BikeDto bike)
