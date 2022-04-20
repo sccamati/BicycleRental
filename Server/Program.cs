@@ -10,15 +10,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddAutoMapper(typeof(AutoMaperProfile).Assembly);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-builder.Services.AddDbContext<DataContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
