@@ -10,11 +10,13 @@ namespace BicycleRental.Server.Controllers
     public class BikeController : ControllerBase
     {
         private readonly IBikeService _bikeService;
+        private readonly IBikesTypeService _bikesTypeService;
         private readonly IMapper _mapper;
-        public BikeController(IBikeService bikeService, IMapper mapper)
+        public BikeController(IBikeService bikeService, IMapper mapper, IBikesTypeService bikesTypeService)
         {
             _bikeService = bikeService;
             _mapper = mapper;
+            _bikesTypeService = bikesTypeService;
         }
 
         [HttpGet("allBikes")]
@@ -34,16 +36,20 @@ namespace BicycleRental.Server.Controllers
                 return BadRequest();
             }
 
-            return _mapper.Map<BikeDto>(bike);
+            var response = _mapper.Map<BikeDto>(bike);
+            return Ok(response);
         }
 
         [HttpPost]
-        public async Task<ActionResult<BikeDto>> Post(BikeDto bike)
+        public async Task<ActionResult<BikeDto>> Post(BikeDto request)
         {
-            Bike newBike = _mapper.Map<Bike>(bike);
+            BikesType bikesType = await _bikesTypeService.GetById(request.BikesType.Id);
+            Bike bike = _mapper.Map<Bike>(request);
+            bike.BikesType = bikesType;
 
-            newBike = await _bikeService.Add(newBike);
-            return _mapper.Map<BikeDto>(newBike);
+            var newBike = await _bikeService.Add(bike);
+            var response = _mapper.Map<BikeDto>(newBike);
+            return Ok(response);
         }
 
         [HttpPut]

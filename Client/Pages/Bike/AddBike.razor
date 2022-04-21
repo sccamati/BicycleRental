@@ -1,0 +1,65 @@
+﻿@page "/addBike"
+@inject IBikeService BikeService
+@inject IBikesTypeService BikesTypeService
+@inject IMatToaster Toaster
+@inject NavigationManager NavigationManager
+
+<h3>Add Bike</h3>
+
+<EditForm Model="bike" OnSubmit="HandleAdd">
+    <div class="form-group">
+        <label for="brand">Brand</label>
+        <InputText id="brand" @bind-Value="bike.Brand" class="form-control"></InputText>
+    </div>
+    <div class="form-group">
+        <label for="productionYear">Production Year</label>
+        <InputNumber id="productionYear" @bind-Value="bike.ProductionDate" class="form-control"></InputNumber>
+    </div>
+    <div class="form-group">
+        <label for="serialNumber">Serial Number</label>
+        <InputText id="serialNumber" @bind-Value="bike.SerialNumber" class="form-control"></InputText>
+    </div>
+    <div class="form-group">
+        <label for="pricePerHour">Price Per Hour</label>
+        <InputNumber id="pricePerHour" @bind-Value="bike.PricePerHour" class="form-control" type="number"></InputNumber>
+    </div>
+
+    <div class="form-group">
+        <label for="type">Type</label>
+        <InputSelect id="type" class="form-control d-flex" @bind-Value="bike.BikesType.Id">
+            @foreach (var type in BikesTypeService.Types)
+            {
+                <option value=@type.Id>@type.Name</option>
+            }
+        </InputSelect>
+    </div>
+    <button type="submit" class="btn btn-primary">Add</button>
+</EditForm>
+
+
+@code {
+
+    private BikeDto bike = new BikeDto();
+
+    protected override async Task OnInitializedAsync()
+    {
+        BikesTypeService.Types = await BikesTypeService.GetAllAsync("api/bikesType");
+        bike.BikesType = new BikesTypeDto();
+    }
+
+    private async void HandleAdd()
+    {
+        bike.BikesType = BikesTypeService.Types.Single(t => t.Id == bike.BikesType.Id);
+        var result = await BikeService.CreateAsync("api/bike", bike);
+
+        if (result != null)
+        {
+            Toaster.Add("Bike added", MatToastType.Success);
+            NavigationManager.NavigateTo($"bikes");
+        }
+        else
+        {
+            Toaster.Add("Error during adding bike. Try Again", MatToastType.Danger);
+        }
+    }
+}

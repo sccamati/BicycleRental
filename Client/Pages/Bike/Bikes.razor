@@ -5,7 +5,7 @@
 @inject NavigationManager NavigationManager
 
 <h3>Bikes</h3>
-
+<button class="btn btn-primary" @onclick="() => NavigateToAddBike()">Add bike</button>
 <MatTable Items="@bikes" class="mat-elevation-z5" FilterByColumnName="Brand">
     <MatTableHeader>
         <th>Serial Number</th>
@@ -70,5 +70,11 @@
         BikeService.Bike = await BikeService.GetByIdAync("api/bike", bike.Id);
         BikesTypeService.Types = await BikesTypeService.GetAllAsync("api/bikesType");
         NavigationManager.NavigateTo($"editBike/{bike.Id}");
+    }
+
+    protected async Task NavigateToAddBike()
+    {
+        BikesTypeService.Types = await BikesTypeService.GetAllAsync("api/bikesType");
+        NavigationManager.NavigateTo($"addBike");
     }
 }
