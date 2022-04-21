@@ -2,9 +2,9 @@
 using Blazored.LocalStorage;
 using System.Net.Http.Json;
 
-namespace BicycleRental.Client.Services.UserService
+namespace BicycleRental.Client.Services.User
 {
-    public class UserService :  Service<UserDto>, IUserService
+    public class UserService : Service<UserDto>, IUserService
     {
 
         public UserService(HttpClient httpClient, ILocalStorageService localStorageService) : base(httpClient, localStorageService)

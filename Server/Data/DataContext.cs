@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BicycleRental.Shared.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace BicycleRental.Server.Data
 {

@@ -1,4 +1,5 @@
 ﻿using BicycleRental.Server.Services.Interfaces;
+using BicycleRental.Shared.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,4 +1,5 @@
-﻿using Blazored.LocalStorage;
+﻿using BicycleRental.Shared.Entities;
+using Blazored.LocalStorage;
 using Newtonsoft.Json;
 using System.Text;
 

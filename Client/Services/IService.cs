@@ -1,4 +1,6 @@
-﻿namespace BicycleRental.Client.Services
+﻿using BicycleRental.Shared.Entities;
+
+namespace BicycleRental.Client.Services
 {
     public interface IService<T> where T : BaseEntity
     {

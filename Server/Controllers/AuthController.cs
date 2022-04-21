@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BicycleRental.Server.Services.Interfaces;
 using BicycleRental.Shared.Dto;
+using BicycleRental.Shared.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BicycleRental.Server.Controllers

@@ -1,4 +1,6 @@
-﻿namespace BicycleRental.Shared.Dto
+﻿using BicycleRental.Shared.Entities;
+
+namespace BicycleRental.Shared.Dto
 {
     public class UserDto : BaseEntity
     {

@@ -1,5 +1,6 @@
 ﻿using BicycleRental.Client.Services.Auth;
 using BicycleRental.Shared.Dto;
+using BicycleRental.Shared.Entities;
 using System.Security.Cryptography;
 
 namespace BicycleRental.Server.Data

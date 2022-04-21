@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BicycleRental.Shared
+namespace BicycleRental.Shared.Entities
 {
     public class BaseEntity
     {

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BicycleRental.Shared.Dto;
+using BicycleRental.Shared.Entities;
 
 namespace BicycleRental.Server
 {

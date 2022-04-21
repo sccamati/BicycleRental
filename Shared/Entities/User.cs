@@ -1,4 +1,4 @@
-﻿namespace BicycleRental.Shared
+﻿namespace BicycleRental.Shared.Entities
 {
     public class User : BaseEntity
     {
@@ -9,4 +9,3 @@
         public ICollection<Rental> Rentals { get; set; }
     }
 }
- 

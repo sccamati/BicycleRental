@@ -6,12 +6,12 @@ using BicycleRental.Client.Services.Bike;
 using BicycleRental.Client.Services.BikesType;
 using BicycleRental.Client.Services.Rental;
 using BicycleRental.Client.Services.Role;
-using BicycleRental.Client.Services.UserService;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MatBlazor;
+using BicycleRental.Client.Services.User;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");

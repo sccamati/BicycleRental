@@ -1,4 +1,4 @@
-﻿namespace BicycleRental.Shared
+﻿namespace BicycleRental.Shared.Entities
 {
     public class Rental : BaseEntity
     {

@@ -1,6 +1,6 @@
 ﻿using BicycleRental.Shared.Dto;
 
-namespace BicycleRental.Client.Services.UserService
+namespace BicycleRental.Client.Services.User
 {
     public interface IUserService : IService<UserDto>
     {

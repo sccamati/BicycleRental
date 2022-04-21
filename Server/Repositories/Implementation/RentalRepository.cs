@@ -1,4 +1,5 @@
 ﻿using BicycleRental.Server.Repositories.Interfaces;
+using BicycleRental.Shared.Entities;
 
 namespace BicycleRental.Server.Repositories.Implementation
 {

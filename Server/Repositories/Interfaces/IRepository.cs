@@ -1,4 +1,6 @@
 ﻿
+using BicycleRental.Shared.Entities;
+
 namespace BicycleRental.Server.Repositories.Interfaces
 {
     public interface IRepository<T> where T : BaseEntity
