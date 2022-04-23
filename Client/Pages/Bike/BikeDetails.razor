@@ -1,5 +1,8 @@
 ﻿@page "/bikeDetails/{id}"
 @inject IBikeService BikeService
+@inject IRentalService RentalService
+@inject IMatToaster Toaster
+
 <h3>Bike Details</h3>
 
 <div>
@@ -44,6 +47,10 @@
     </dl>
 
 </div>
+@if (!BikeService.Bike.IsBorrowed)
+{
+    <button class="btn btn-danger" @onclick="() => Rent()">Rent</button>
+}
 
 @code {
 
@@ -51,4 +58,17 @@
     public string Id { get; set; }
     protected override async Task OnInitializedAsync() => BikeService.Bike = await BikeService.GetByIdAync("api/bike", Convert.ToInt32(Id));
 
+    private async void Rent()
+    {
+        var result = await RentalService.RentBike("api/rental", BikeService.Bike.Id);
+        if (result != null)
+        {
+            Toaster.Add("Bike rented", MatToastType.Success);
+            BikeService.Bike.IsBorrowed = true;
+        }
+        else
+        {
+            Toaster.Add("Error during rent bike. Try Again", MatToastType.Danger);
+        }
+    }
 }

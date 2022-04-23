@@ -10,7 +10,6 @@ using System.Security.Claims;
 
 namespace BicycleRental.Server.Controllers
 {
-    [Authorize(Roles = "User")]
     [Route("api/[controller]")]
     [ApiController]
     public class RentalController : ControllerBase
@@ -18,12 +17,14 @@ namespace BicycleRental.Server.Controllers
 
         private readonly IRentalService _rentalService;
         private readonly IUserService _userService;
+        private readonly IBikeService _bikeService;
         private readonly IMapper _mapper;
 
-        public RentalController(IRentalService rentalService, IUserService userService, IMapper mapper)
+        public RentalController(IRentalService rentalService, IUserService userService, IBikeService bikeService, IMapper mapper)
         {
             _rentalService = rentalService;
             _userService = userService;
+            _bikeService = bikeService;
             _mapper = mapper;
         }
 
@@ -41,10 +42,17 @@ namespace BicycleRental.Server.Controllers
         }
 
         [HttpGet("userRentals")]
-        public ActionResult<List<RentalDto>> GetUsersRentals()
+        public async Task<ActionResult<List<RentalDto>>> GetUsersRentals()
         {
             int id = Jwt.GetId(Request.Headers.Authorization);
-            var rentals = _rentalService.GetAllUsersRentals(id);
+            var rentals = await _rentalService.GetAllUsersRentals(id);
+            foreach (var rental in rentals)
+            {
+                if(rental.Price == 0)
+                {
+                    rental.Price = (DateTime.Now.AddHours(1) - rental.StartDate).Hours * rental.Bike.PricePerHour;
+                }
+            }
 
             if (rentals == null)
             {
@@ -55,22 +63,27 @@ namespace BicycleRental.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<RentalDto>> Post(RentalDto rental)
+        public async Task<ActionResult<RentalDto>> Post(RentalBikeDto request)
         {
-            if (rental == null)
+            if (request == null)
             {
                 return BadRequest();
             }
 
             string token = Request.Headers.Authorization;
 
-            Rental addRental = _mapper.Map<Rental>(rental);
-
             User user = await _userService.GetById(Jwt.GetId(token));
 
-            addRental.User = user;
+            Rental rental = new Rental
+            {
+                Bike = await _bikeService.GetById(request.Id),
+                StartDate = DateTime.Now,
+                User = user,
+            };
 
-            var newRental = _rentalService.Add(addRental);
+            rental.Bike.IsBorrowed = true;
+
+            var newRental = await _rentalService.Add(rental);
 
             if (newRental == null)
             {
@@ -86,6 +99,21 @@ namespace BicycleRental.Server.Controllers
         {
             await _rentalService.DeleteById(id);
             return Ok();
+        }
+
+        [HttpPut("returnBike")]
+        public async Task<ActionResult> ReturnBike(RentalDto request)
+        {
+            try
+            {
+                await _rentalService.ReturnBike(request.Id);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

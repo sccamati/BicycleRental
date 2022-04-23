@@ -39,12 +39,14 @@
 
 @code {
 
-    private BikeDto bike = new BikeDto();
+    private BikeDto bike = new BikeDto
+        {
+            BikesType = new BikesTypeDto()
+        };
 
     protected override async Task OnInitializedAsync()
     {
         BikesTypeService.Types = await BikesTypeService.GetAllAsync("api/bikesType");
-        bike.BikesType = new BikesTypeDto();
     }
 
     private async void HandleAdd()

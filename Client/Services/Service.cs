@@ -19,7 +19,7 @@ namespace BicycleRental.Client.Services
         public async Task<T> CreateAsync(string requestUri, T entity)
         {
             var requestMessage = new HttpRequestMessage(HttpMethod.Post, requestUri);
-            var token = await _localStorageService.GetItemAsStringAsync("token");
+            var token = await _localStorageService.GetItemAsync<string>("token");
 
             requestMessage.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             requestMessage.Content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");

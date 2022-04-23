@@ -1,0 +1,57 @@
+﻿@page "/usersRentals"
+@inject ILocalStorageService LocalStorage
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthStateProvider
+@inject IAuthService AuthService
+@inject IRentalService RentalService
+
+<h3>Your Rentals</h3>
+
+<MatTable Items="@RentalService.UsersRentals" class="mat-elevation-z5" FilterByColumnName="Brand">
+    <MatTableHeader>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Price</th>
+        <th>Bike</th>
+        <th>Actions</th>
+    </MatTableHeader>
+    <MatTableRow>
+        <td>@context.StartDate</td>
+        <td>
+            @if (context.EndDate == DateTime.MinValue)
+            {
+
+            }
+            else
+            {
+                @context.EndDate
+            }
+
+        </td>
+        <td>@context.Price</td>
+        <td>@context.Bike.Brand</td>
+        <td>
+            @if (context.EndDate == DateTime.MinValue)
+            {
+                <button class="btn btn-primary" @onclick="() => Return(context)">Return</button>
+            }
+            else
+            {
+                
+            }
+        </td>
+    </MatTableRow>
+</MatTable>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        RentalService.UsersRentals = await RentalService.GetAllAsync("api/rental/userRentals");
+    }
+
+    private async void Return(RentalDto rental)
+    {
+        await RentalService.UpdateAsync("api/rental/returnBike", rental);
+        RentalService.UsersRentals = await RentalService.GetAllAsync("api/rental/userRentals");
+    }
+}

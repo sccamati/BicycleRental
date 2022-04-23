@@ -12,10 +12,27 @@ namespace BicycleRental.Server.Services.Implementation
             _rentalRepo = rentalRepo;
         }
 
-        public List<Rental> GetAllUsersRentals(int id)
+        public async Task<List<Rental>> GetAllUsersRentals(int id)
         {
-            var rentals = _rentalRepo.GetAllUsersRentals(id);
+            var rentals = await _rentalRepo.GetAllUsersRentals(id);
             return rentals;
+        }
+
+        public async Task<Rental> GetByIdWithBike(int id)
+        {
+            var rental = await _rentalRepo.GetByIdWithBike(id);
+            return rental;
+        }
+
+        public async Task ReturnBike(int id)
+        {
+            var rental = await _rentalRepo.GetByIdWithBike(id);
+
+            rental.Bike.IsBorrowed = false;
+            rental.EndDate = DateTime.Now;
+            rental.Price = (rental.EndDate - rental.StartDate).Hours * rental.Bike.PricePerHour;
+
+            await _rentalRepo.Update(rental);
         }
     }
 }

@@ -4,6 +4,8 @@ namespace BicycleRental.Server.Services.Interfaces
 {
     public interface IRentalService : IService<Rental>
     {
-        List<Rental> GetAllUsersRentals(int id);
+        Task<List<Rental>> GetAllUsersRentals(int id);
+        Task<Rental> GetByIdWithBike(int id);
+        Task ReturnBike(int id);
     }
 }

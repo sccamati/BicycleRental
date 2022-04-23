@@ -9,10 +9,16 @@ namespace BicycleRental.Server.Repositories.Implementation
         {
         }
 
-        public List<Rental> GetAllUsersRentals(int id)
+        public async Task<List<Rental>> GetAllUsersRentals(int id)
         {
-            var rentals = _context.Rentals.Where(r => r.User.Id == id).Include(r => r.Bike).ToList();
+            var rentals = await _context.Rentals.Where(r => r.User.Id == id).Include(r => r.Bike).ThenInclude(r => r.BikesType).ToListAsync();
             return rentals;
+        }
+
+        public async Task<Rental> GetByIdWithBike(int id)
+        {
+            var rental = await _context.Rentals.Include(r => r.Bike).SingleAsync(r => r.Id == id);
+            return rental;
         }
     }
 }
