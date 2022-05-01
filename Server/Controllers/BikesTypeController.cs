@@ -2,11 +2,13 @@
 using BicycleRental.Server.Services.Interfaces;
 using BicycleRental.Shared.Dto;
 using BicycleRental.Shared.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BicycleRental.Server.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class BikesTypeController : ControllerBase
@@ -27,6 +29,7 @@ namespace BicycleRental.Server.Controllers
             return Ok(bikesDto); 
         }
 
+        [Authorize(Roles = "Admin,Owner")]
         [HttpPost]
         public async Task<ActionResult> Post(string name)
         {
@@ -39,6 +42,7 @@ namespace BicycleRental.Server.Controllers
             return Ok(newType);
         }
 
+        [Authorize(Roles = "Admin,Owner")]
         [HttpPut]
         public async Task<ActionResult> Put(BikesTypeDto bikesType)
         {

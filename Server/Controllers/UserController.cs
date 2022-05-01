@@ -9,7 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace BicycleRental.Server.Controllers
 {
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase

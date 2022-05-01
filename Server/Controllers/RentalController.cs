@@ -10,6 +10,7 @@ using System.Security.Claims;
 
 namespace BicycleRental.Server.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class RentalController : ControllerBase
@@ -94,6 +95,7 @@ namespace BicycleRental.Server.Controllers
             return Ok(rentalsDto);
         }
 
+        [Authorize(Roles = "Admin,Owner")]
         [HttpDelete]
         public async Task<ActionResult> Delete(int id)
         {
