@@ -12,7 +12,7 @@ namespace BicycleRental.Server.Data
         {
             context.Database.EnsureCreated();
 
-            if (context.Bikes.Any())
+            if (context.Rentals.Any())
             {
                 return;
             }
@@ -29,7 +29,7 @@ namespace BicycleRental.Server.Data
 
             CreatePasswordHash("Password1", out byte[] passwordHash, out byte[] passwordSalt);
 
-            User user1 = new User
+            User admin = new User
             {
                 Email = "admin@wp.pl",
                 PasswordHash = passwordHash,
@@ -37,17 +37,9 @@ namespace BicycleRental.Server.Data
                 Role = roles[0]
             };
 
-            CreatePasswordHash("Password1", out byte[] passwordHash1, out byte[] passwordSalt1);
-            User user2 = new User
-            {
-                Email = "user@wp.pl",
-                PasswordHash = passwordHash1,
-                PasswordSalt = passwordSalt1,
-                Role = roles[2]
-            };
 
             CreatePasswordHash("Password1", out byte[] passwordHash2, out byte[] passwordSalt2);
-            User user3 = new User
+            User owner = new User
             {
                 Email = "owner@wp.pl",
                 PasswordHash = passwordHash2,
@@ -55,17 +47,30 @@ namespace BicycleRental.Server.Data
                 Role = roles[1]
             };
 
-            var users = new User[]
+
+
+            User[] users = new User[100];
+            users[0] = admin;
+            users[1] = owner;
+
+            for (int i = 2; i < 100; i++)
             {
-                user1,
-                user2,
-                user3
-            };
+                CreatePasswordHash("Password1", out byte[] passwordHash1, out byte[] passwordSalt1);
+                User user1 = new User
+                {
+                    Email = $"user{i.ToString()}@wp.pl",
+                    PasswordHash = passwordHash1,
+                    PasswordSalt = passwordSalt1,
+                    Role = roles[2]
+                };
+
+                users[i] = user1;
+            }
 
             context.Users.AddRange(users);
             context.SaveChanges();
 
-            var bikesTypes = new BikesType[]
+            BikesType[] bikesTypes = new BikesType[]
             {
                 new BikesType{Name = "Cross"},
                 new BikesType{Name = "Trekking"},
@@ -84,27 +89,50 @@ namespace BicycleRental.Server.Data
                 "giant"
             };
 
-            var bikes = new Bike[]
+            Bike[] bikes = new Bike[100];
+
+
+            Random rand = new Random();
+
+            for (int i = 0; i < 100; i++)
             {
-                new Bike{BikesType = bikesTypes[0], ProductionDate = DateTime.Now.Year, SerialNumber="123456123", Brand = brands[0], PricePerHour = 30},
-                new Bike{BikesType = bikesTypes[1], ProductionDate = DateTime.Now.Year, SerialNumber="123456121", Brand = brands[1], PricePerHour = 34},
-                new Bike{BikesType = bikesTypes[2], ProductionDate = DateTime.Now.Year, SerialNumber="123456122", Brand = brands[2], PricePerHour = 45},
-                new Bike{BikesType = bikesTypes[3], ProductionDate = DateTime.Now.Year, SerialNumber="123456124", Brand = brands[3], PricePerHour = 22},
-                new Bike{BikesType = bikesTypes[1], ProductionDate = DateTime.Now.Year, SerialNumber="123456125", Brand = brands[0], PricePerHour = 15},
-            };
+                bikes[i] = new Bike
+                {
+                    BikesType = bikesTypes[rand.Next(0, bikesTypes.Length - 1)],
+                    ProductionDate = rand.Next(2005, 2022),
+                    SerialNumber = rand.Next(111111112, 999999999).ToString(),
+                    Brand = brands[rand.Next(0, brands.Length - 1)],
+                    PricePerHour = rand.Next(10, 50),
+                };
+
+                 
+            }
 
             context.Bikes.AddRange(bikes);
             context.SaveChanges();
 
-            var rentals = new Rental[]
+            Rental[] rentals = new Rental[1000000];
+
+            for (int i = 0; i < 1000000; i++)
             {
-                new Rental{User = users[1], Bike = bikes[0], StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(1), Price = 100},
-                new Rental{User = users[1], Bike = bikes[1], StartDate = DateTime.Now.AddDays(3), EndDate = DateTime.Now.AddDays(4), Price = 100},
-                new Rental{User = users[1], Bike = bikes[2], StartDate = DateTime.Now.AddDays(5), EndDate = DateTime.Now.AddDays(6), Price = 200},
-                new Rental{User = users[1], Bike = bikes[3], StartDate = DateTime.Now.AddDays(8), EndDate = DateTime.Now.AddDays(9), Price = 120},
-                new Rental{User = users[1], Bike = bikes[4], StartDate = DateTime.Now.AddDays(10), EndDate = DateTime.Now.AddDays(11), Price = 130},
-                new Rental{User = users[1], Bike = bikes[0], StartDate = DateTime.Now.AddDays(15), EndDate = DateTime.Now.AddDays(17), Price = 110},
-            };
+                DateTime start = new DateTime(2020, 1, 1);
+                int range = (DateTime.Today - start).Days;
+                start = start.AddDays(rand.Next(range));
+
+                var bike = bikes[rand.Next(0, 99)];
+                int rentalHours = rand.Next(1, 10);
+
+                Rental rental = new Rental
+                {
+                    User = users[rand.Next(2, 99)],
+                    Bike = bike,
+                    StartDate = start,
+                    EndDate = start.AddHours(rentalHours),
+                    Price = rentalHours * 3
+                };
+
+                rentals[i] = rental;
+            }
 
             context.Rentals.AddRange(rentals);
             context.SaveChanges();
@@ -119,5 +147,6 @@ namespace BicycleRental.Server.Data
             }
 
         }
+
     }
 }
