@@ -1,57 +1,96 @@
 ﻿@page "/usersRentals"
+@using Newtonsoft.Json
 @inject ILocalStorageService LocalStorage
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthStateProvider
 @inject IAuthService AuthService
 @inject IRentalService RentalService
+@inject HttpClient HttpClient
+
 
 <h3>Your Rentals</h3>
+<Pagination TotalPagesQuantity="TotalPageQuantity" CurrentPage="CurrentPage" Radius="2" SelectedPage="SelectedPage"></Pagination>
 
-<MatTable Items="@RentalService.UsersRentals" class="mat-elevation-z5" FilterByColumnName="Brand">
-    <MatTableHeader>
-        <th>Start Date</th>
-        <th>End Date</th>
-        <th>Price</th>
-        <th>Bike</th>
-        <th>Actions</th>
-    </MatTableHeader>
-    <MatTableRow>
-        <td>@context.StartDate</td>
-        <td>
-            @if (context.EndDate == DateTime.MinValue)
-            {
+<table class="table table-striped">
+    <thead class="thead">
+        <tr>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Price</th>
+            <th>Bike</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in rentals)
+        {
+            <tr>
+                <td>@item.StartDate</td>
+                <td>
+                    @if (item.EndDate == DateTime.MinValue)
+                    {
 
-            }
-            else
-            {
-                @context.EndDate
-            }
+                    }
+                    else
+                    {
+                        @item.EndDate
+                    }
 
-        </td>
-        <td>@context.Price</td>
-        <td>@context.Bike.Brand</td>
-        <td>
-            @if (context.EndDate == DateTime.MinValue)
-            {
-                <button class="btn btn-primary" @onclick="() => Return(context)">Return</button>
-            }
-            else
-            {
-                
-            }
-        </td>
-    </MatTableRow>
-</MatTable>
+                </td>
+                <td>@item.Price</td>
+                <td>@item.Bike.Brand</td>
+                <td>
+                    @if (item.EndDate == DateTime.MinValue)
+                    {
+                        <button class="btn btn-primary" @onclick="() => Return(item)">Return</button>
+                    }
+                    else
+                    {
+
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 
 @code {
+    List<RentalDto> rentals = new List<RentalDto>();
+    public int TotalPageQuantity = 10;
+    public int CurrentPage = 1;
+
     protected override async Task OnInitializedAsync()
     {
-        RentalService.UsersRentals = await RentalService.GetAllAsync("api/rental/userRentals");
+        await LoadRentals();
+    }
+
+    private async Task SelectedPage(int page)
+    {
+        CurrentPage = page;
+        await LoadRentals(page);
     }
 
     private async void Return(RentalDto rental)
     {
         await RentalService.UpdateAsync("api/rental/returnBike", rental);
         RentalService.UsersRentals = await RentalService.GetAllAsync("api/rental/userRentals");
+    }
+
+    private async Task LoadRentals(int page = 1, int quantityPerPage = 10)
+    {
+        var requestMessage = new HttpRequestMessage(HttpMethod.Get, $"api/rental/userRentals?page={CurrentPage}&quantityPerPage={quantityPerPage}");
+            var token = await LocalStorage.GetItemAsync<string>("token");
+
+            requestMessage.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+            var response = await HttpClient.SendAsync(requestMessage);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                TotalPageQuantity = int.Parse(response.Headers.GetValues("pagesQuantity").First());
+                var responseBody = await response.Content.ReadAsStringAsync();
+                rentals = JsonConvert.DeserializeObject<List<RentalDto>>(responseBody);
+            }
+
     }
 }

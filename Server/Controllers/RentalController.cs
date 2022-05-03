@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BicycleRental.Server.Helpers;
+using BicycleRental.Server.Repositories.Interfaces;
 using BicycleRental.Server.Services.Interfaces;
 using BicycleRental.Shared.Dto;
 using BicycleRental.Shared.Entities;
@@ -19,13 +20,19 @@ namespace BicycleRental.Server.Controllers
         private readonly IRentalService _rentalService;
         private readonly IUserService _userService;
         private readonly IBikeService _bikeService;
+        private readonly IRentalRepository _rentalRepository;
         private readonly IMapper _mapper;
 
-        public RentalController(IRentalService rentalService, IUserService userService, IBikeService bikeService, IMapper mapper)
+        public RentalController(IRentalService rentalService,
+            IUserService userService,
+            IBikeService bikeService,
+            IRentalRepository rentalRepository,
+            IMapper mapper)
         {
             _rentalService = rentalService;
             _userService = userService;
             _bikeService = bikeService;
+            _rentalRepository = rentalRepository;
             _mapper = mapper;
         }
 
@@ -43,13 +50,18 @@ namespace BicycleRental.Server.Controllers
         }
 
         [HttpGet("userRentals")]
-        public async Task<ActionResult<List<RentalDto>>> GetUsersRentals()
+        public async Task<ActionResult<List<RentalDto>>> GetUsersRentals([FromQuery] PaginationDto pagination)
         {
             int id = Jwt.GetId(Request.Headers.Authorization);
-            var rentals = await _rentalService.GetAllUsersRentals(id);
+            IQueryable<Rental> queryable = _rentalService.GetAllUsersRentals(id, pagination);
+            await HttpContext.InsertPaginationParameterInResponse(queryable, pagination.QuantityPerPage);
+            queryable = queryable.Paginate(pagination);
+
+            var rentals = await queryable.ToListAsync();
+
             foreach (var rental in rentals)
             {
-                if(rental.Price == 0)
+                if (rental.Price == 0)
                 {
                     rental.Price = (DateTime.Now.AddHours(1) - rental.StartDate).Hours * rental.Bike.PricePerHour;
                 }
@@ -59,7 +71,8 @@ namespace BicycleRental.Server.Controllers
             {
                 return NotFound();
             }
-            var rentalsDto = _mapper.Map<List<Rental>, List<RentalDto>>(rentals);
+
+            var rentalsDto = _mapper.Map<List<Rental>, List<RentalDto>>(rentals.ToList());
             return Ok(rentalsDto);
         }
 

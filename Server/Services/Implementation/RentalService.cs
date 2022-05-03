@@ -1,5 +1,7 @@
-﻿using BicycleRental.Server.Repositories.Interfaces;
+﻿using BicycleRental.Server.Helpers;
+using BicycleRental.Server.Repositories.Interfaces;
 using BicycleRental.Server.Services.Interfaces;
+using BicycleRental.Shared.Dto;
 using BicycleRental.Shared.Entities;
 
 namespace BicycleRental.Server.Services.Implementation
@@ -12,10 +14,10 @@ namespace BicycleRental.Server.Services.Implementation
             _rentalRepo = rentalRepo;
         }
 
-        public async Task<List<Rental>> GetAllUsersRentals(int id)
+        public IQueryable<Rental> GetAllUsersRentals(int id, PaginationDto pagination)
         {
-            var rentals = await _rentalRepo.GetAllUsersRentals(id);
-            return rentals;
+            var rentals = _rentalRepo.GetAllUsersRentals(id, pagination);
+            return rentals.AsQueryable();
         }
 
         public async Task<Rental> GetByIdWithBike(int id)

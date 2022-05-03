@@ -1,5 +1,7 @@
 ﻿@inject ILocalStorageService LocalStorage
 @inject AuthenticationStateProvider AuthStateProvider
+@inject IRentalService RentalService
+@inject NavigationManager NavigationManager
 
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
@@ -73,5 +75,5 @@
     {
         await LocalStorage.RemoveItemAsync("token");
         await AuthStateProvider.GetAuthenticationStateAsync();
-    }
+    } 
 }

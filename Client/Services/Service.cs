@@ -7,8 +7,8 @@ namespace BicycleRental.Client.Services
 {
     public class Service<T> : IService<T> where T : BaseEntity
     {
-        private readonly HttpClient _httpClient;
-        private readonly ILocalStorageService _localStorageService;
+        public readonly HttpClient _httpClient;
+        public readonly ILocalStorageService _localStorageService;
 
         public Service(HttpClient httpClient, ILocalStorageService localStorageService)
         {

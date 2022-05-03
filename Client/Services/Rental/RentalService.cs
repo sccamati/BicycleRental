@@ -7,15 +7,33 @@ namespace BicycleRental.Client.Services.Rental
 {
     public class RentalService : Service<RentalDto>, IRentalService
     {
-        private readonly ILocalStorageService _localStorageService;
-        private readonly HttpClient _httpClient;
         public RentalService(HttpClient httpClient, ILocalStorageService localStorageService) : base(httpClient, localStorageService)
         {
-            _localStorageService = localStorageService;
-            _httpClient = httpClient;
         }
 
         public List<RentalDto> UsersRentals { get; set; }
+        public int TotalPageQuantity { get; set; }
+        public int CurrentPage { get; set; }
+
+        public async Task<List<RentalDto>> GetAllUsersRentals(string requestUri)
+        {
+
+            var requestMessage = new HttpRequestMessage(HttpMethod.Get, requestUri);
+            var token = await _localStorageService.GetItemAsync<string>("token");
+
+            requestMessage.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+            var response = await _httpClient.SendAsync(requestMessage);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                TotalPageQuantity = int.Parse(response.Headers.GetValues("pagesQuantity").First());
+                var responseBody = await response.Content.ReadAsStringAsync();
+                return await Task.FromResult(JsonConvert.DeserializeObject<List<RentalDto>>(responseBody));
+            }
+
+            return null;
+        }
 
         public async Task<RentalDto> RentBike(string requestUri, int bikeId)
         {
