@@ -6,6 +6,7 @@
 @inject IAuthService AuthService
 @inject IRentalService RentalService
 @inject HttpClient HttpClient
+@inject IMatToaster Toaster
 
 
 <h3>Your Rentals</h3>
@@ -72,8 +73,17 @@
 
     private async void Return(RentalDto rental)
     {
-        await RentalService.UpdateAsync("api/rental/returnBike", rental);
-        RentalService.UsersRentals = await RentalService.GetAllAsync("api/rental/userRentals");
+        var response = await RentalService.UpdateAsync("api/rental/returnBike", rental);
+        if (response)
+        {
+            Toaster.Add("Bike returned", MatToastType.Success);
+        }
+        else
+        {
+            Toaster.Add("Error Try again", MatToastType.Danger);
+        }
+        await LoadRentals();
+        StateHasChanged();
     }
 
     private async Task LoadRentals(int page = 1, int quantityPerPage = 10)

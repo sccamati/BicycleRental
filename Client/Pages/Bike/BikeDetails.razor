@@ -47,16 +47,20 @@
     </dl>
 
 </div>
-@if (!BikeService.Bike.IsBorrowed)
-{
-    <button class="btn btn-danger" @onclick="() => Rent()">Rent</button>
+@if(!BikeService.Bike.IsBorrowed){
+     <button class="btn btn-danger" @onclick="() => Rent()">Rent</button>
 }
+
+
 
 @code {
 
     [Parameter]
     public string Id { get; set; }
-    protected override async Task OnInitializedAsync() => BikeService.Bike = await BikeService.GetByIdAync("api/bike", Convert.ToInt32(Id));
+
+    protected override async Task OnInitializedAsync(){
+        BikeService.Bike = await BikeService.GetByIdAync("api/bike", Convert.ToInt32(Id));
+    }
 
     private async void Rent()
     {
@@ -64,11 +68,14 @@
         if (result != null)
         {
             Toaster.Add("Bike rented", MatToastType.Success);
-            BikeService.Bike.IsBorrowed = true;
+            BikeService.Bike = await BikeService.GetByIdAync("api/bike", Convert.ToInt32(Id));
+
+            StateHasChanged();
         }
         else
         {
             Toaster.Add("Error during rent bike. Try Again", MatToastType.Danger);
         }
     }
+    
 }
