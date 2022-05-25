@@ -13,7 +13,7 @@ namespace BicycleRental.Server.Repositories.Implementation
         public IQueryable<Rental> GetAllUsersRentals(int id, PaginationDto pagination)
         {
             var rentals = _context.Rentals.Where(r => r.User.Id == id).Include(r => r.Bike)
-                .ThenInclude(r => r.BikesType).OrderByDescending(r => r.StartDate);
+                .ThenInclude(r => r.BikesType).OrderByDescending(r => r.StartDate).OrderByDescending(r => r.StartDate);
             return rentals;
         }
 
