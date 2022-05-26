@@ -1,9 +1,11 @@
 ﻿@page "/users"
+@using Microsoft.AspNetCore.Authorization
 @inject IUserService UserService
 @inject IRoleService RoleService
 @inject IMatToaster Toaster
 @inject NavigationManager NavigationManager
 <PageTitle>Users</PageTitle>
+@attribute [Authorize(Roles = "Admin")]
 
 <h3>Users</h3>
 

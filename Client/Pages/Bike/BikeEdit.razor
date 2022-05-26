@@ -1,7 +1,9 @@
 ﻿@page "/editBike/{id}"
+@using Microsoft.AspNetCore.Authorization
 @inject IBikeService BikeService
 @inject IBikesTypeService BikesTypeService
 @inject IMatToaster Toaster
+@attribute [Authorize(Roles = "Admin, Owner")]
 
 <h3>Bike Edit</h3>
 

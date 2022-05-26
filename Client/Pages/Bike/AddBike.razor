@@ -1,8 +1,10 @@
 ﻿@page "/addBike"
+@using Microsoft.AspNetCore.Authorization
 @inject IBikeService BikeService
 @inject IBikesTypeService BikesTypeService
 @inject IMatToaster Toaster
 @inject NavigationManager NavigationManager
+@attribute [Authorize(Roles = "Admin, Owner")]
 
 <h3>Add Bike</h3>
 

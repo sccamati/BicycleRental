@@ -2,6 +2,7 @@
 @inject IUserService UserService
 @inject IRoleService RoleService
 @inject IMatToaster Toaster
+@attribute [Authorize(Roles = "Admin")]
 
 <h3>EditUser</h3>
 

@@ -5,31 +5,45 @@
 @inject NavigationManager NavigationManager
 
 <h3>Bikes</h3>
-<button class="btn btn-primary" @onclick="() => NavigateToAddBike()">Add bike</button>
-<MatTable Items="@bikes" class="mat-elevation-z5" FilterByColumnName="Brand">
-    <MatTableHeader>
-        <th>Serial Number</th>
-        <th>Brand</th>
-        <th>Availability</th>
-        <th>Production Date</th>
-        <th>Type</th>
-        <th>Price Per Hour</th>
-        <th>Actions</th>
-    </MatTableHeader>
-    <MatTableRow>
-        <td>@context.SerialNumber</td>
-        <td>@context.Brand</td>
-        <td>@IsBorrowed(context.IsBorrowed)</td>
-        <td>@context.ProductionDate</td>
-        <td>@context.BikesType.Name</td>
-        <td>@context.PricePerHour</td>
-        <td>
-            <button class="btn btn-primary" @onclick="() => NavigateToEdit(context)">Edit</button>
-            <button class="btn btn-warning" @onclick="() => NavigateToDetails(context)">Details</button>
-            <button class="btn btn-danger" @onclick="() => Delete(context)">Delete</button>
-        </td>
-    </MatTableRow>
-</MatTable>
+<AuthorizeView Roles="Admin, Owner">
+    <button class="btn btn-primary" @onclick="() => NavigateToAddBike()">Add bike</button>
+</AuthorizeView>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Serial Number</th>
+            <th>Brand</th>
+            <th>Availability</th>
+            <th>Production Date</th>
+            <th>Type</th>
+            <th>Price Per Hour</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var rental in bikes)
+        {
+            <tr>
+                <td>@rental.SerialNumber</td>
+                <td>@rental.Brand</td>
+                <td>@IsBorrowed(rental.IsBorrowed)</td>
+                <td>@rental.ProductionDate</td>
+                <td>@rental.BikesType.Name</td>
+                <td>@rental.PricePerHour</td>
+
+                <td>
+                    <button class="btn btn-warning" @onclick="() => NavigateToDetails(rental)">Details</button>
+                    <AuthorizeView Roles="Admin, Owner">
+                        <button class="btn btn-primary" @onclick="() => NavigateToEdit(rental)">Edit</button>
+                        <button class="btn btn-danger" @onclick="() => Delete(rental)">Delete</button>
+                    </AuthorizeView>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 
 @code {
 
